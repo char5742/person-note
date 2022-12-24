@@ -1,6 +1,6 @@
-# person_memo
+# person_note
 
-A new Flutter project.
+An app to note people who have helped you.
 
 ## Getting Started
 
