@@ -40,7 +40,7 @@ class AuthUsecaseImpl implements AuthUsecase {
         if (!snapshot.exists) {
           await ref.set({
             "displayName": user.displayName,
-            " createdAt": ServerValue.timestamp,
+            "createdAt": ServerValue.timestamp,
           });
         }
       }
