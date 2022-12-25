@@ -20,6 +20,9 @@ dependencies:
   go_router: ^6.0.0
   flutter_datetime_picker: ^1.5.1
   intl: ^0.18.0
+  firebase_core: ^2.4.0
+  firebase_auth: ^4.2.2
+  cloud_firestore: ^4.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "490930282376",
+    "project_id": "person-note-d625a",
+    "storage_bucket": "person-note-d625a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490930282376:android:7119afacbeafefb2a8e43d",
+        "android_client_info": {
+          "package_name": "com.example.person_memo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490930282376-54qc7anduemthmvuqlnsepgfvs105s1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2aF_jGfpj_eUdxovtLryf1HoaP8_3_8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490930282376-54qc7anduemthmvuqlnsepgfvs105s1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
