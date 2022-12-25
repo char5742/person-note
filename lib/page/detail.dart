@@ -9,7 +9,10 @@ class DetailPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final person = ref.watch(personByIdProvider(personId));
+    if (ref.watch(personByIdProvider(personId)).isLoading) {
+      return const CircularProgressIndicator();
+    }
+    final person = ref.watch(personByIdProvider(personId)).value!;
     return Scaffold(
       appBar: AppBar(),
       body: Center(
