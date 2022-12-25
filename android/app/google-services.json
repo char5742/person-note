@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "490930282376",
+    "firebase_url": "https://person-note-d625a-default-rtdb.firebaseio.com",
     "project_id": "person-note-d625a",
     "storage_bucket": "person-note-d625a.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "490930282376-6jg88p818oui6ndhc7qmp20j5ni45blv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.person_memo",
+            "certificate_hash": "4564964913cb30d86ba024c72a4bd231a267212b"
+          }
+        },
+        {
+          "client_id": "490930282376-sqhi28590p7ovft6nuqi3lekt8ng69pt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.person_memo",
+            "certificate_hash": "0a9f5b2d410a685b73aa5c5c25ec0d0379cf5491"
+          }
+        },
         {
           "client_id": "490930282376-54qc7anduemthmvuqlnsepgfvs105s1k.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +46,13 @@
             {
               "client_id": "490930282376-54qc7anduemthmvuqlnsepgfvs105s1k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "490930282376-j8o6qllq1cd7042uhromair1r3fev67s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.personMemo"
+              }
             }
           ]
         }

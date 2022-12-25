@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
     authDomain: 'person-note-d625a.firebaseapp.com',
+    databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
     storageBucket: 'person-note-d625a.appspot.com',
     measurementId: 'G-MPDLB94TFQ',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:490930282376:android:7119afacbeafefb2a8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
+    databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
     storageBucket: 'person-note-d625a.appspot.com',
   );
 
@@ -66,7 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:490930282376:ios:157e907484ebd80ea8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
+    databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
     storageBucket: 'person-note-d625a.appspot.com',
+    androidClientId: '490930282376-6jg88p818oui6ndhc7qmp20j5ni45blv.apps.googleusercontent.com',
     iosClientId: '490930282376-j8o6qllq1cd7042uhromair1r3fev67s.apps.googleusercontent.com',
     iosBundleId: 'com.example.personMemo',
   );
@@ -76,7 +80,9 @@ class DefaultFirebaseOptions {
     appId: '1:490930282376:ios:157e907484ebd80ea8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
+    databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
     storageBucket: 'person-note-d625a.appspot.com',
+    androidClientId: '490930282376-6jg88p818oui6ndhc7qmp20j5ni45blv.apps.googleusercontent.com',
     iosClientId: '490930282376-j8o6qllq1cd7042uhromair1r3fev67s.apps.googleusercontent.com',
     iosBundleId: 'com.example.personMemo',
   );
