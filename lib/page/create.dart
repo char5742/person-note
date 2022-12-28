@@ -27,7 +27,7 @@ class CreatePage extends HookConsumerWidget {
             onPressed: () async {
               if (formKey.currentState!.validate()) {
                 final person = Person(
-                  id: 0,
+                  id: "",
                   name: nameConteroller.text,
                   age: int.tryParse(ageConteroller.text),
                   email: emailConteroller.text,

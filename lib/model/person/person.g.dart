@@ -7,7 +7,7 @@ part of 'person.dart';
 // **************************************************************************
 
 _$_Person _$$_PersonFromJson(Map<String, dynamic> json) => _$_Person(
-      id: json['id'] as int,
+      id: json['id'] as String,
       name: json['name'] as String,
       age: json['age'] as int?,
       birthday: json['birthday'] == null
@@ -15,7 +15,7 @@ _$_Person _$$_PersonFromJson(Map<String, dynamic> json) => _$_Person(
           : DateTime.parse(json['birthday'] as String),
       email: json['email'] as String?,
       memo: json['memo'] as String,
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       updated: DateTime.parse(json['updated'] as String),
       created: DateTime.parse(json['created'] as String),
     );

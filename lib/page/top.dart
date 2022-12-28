@@ -20,7 +20,7 @@ class TopPage extends HookConsumerWidget {
             child: Column(children: [
               Text(person.name, style: theme.textTheme.headlineSmall),
               Row(
-                children: person.tags.map((e) => Card(child: Text(e))).toList(),
+                children: [...?person.tags?.map((e) => Card(child: Text(e)))],
               ),
             ]),
           ),

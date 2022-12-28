@@ -20,13 +20,13 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Person {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
   DateTime? get birthday => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
-  List<String> get tags => throw _privateConstructorUsedError;
+  List<String>? get tags => throw _privateConstructorUsedError;
   DateTime get updated => throw _privateConstructorUsedError;
   DateTime get created => throw _privateConstructorUsedError;
 
@@ -41,13 +41,13 @@ abstract class $PersonCopyWith<$Res> {
       _$PersonCopyWithImpl<$Res, Person>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       int? age,
       DateTime? birthday,
       String? email,
       String memo,
-      List<String> tags,
+      List<String>? tags,
       DateTime updated,
       DateTime created});
 }
@@ -71,7 +71,7 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
     Object? birthday = freezed,
     Object? email = freezed,
     Object? memo = null,
-    Object? tags = null,
+    Object? tags = freezed,
     Object? updated = null,
     Object? created = null,
   }) {
@@ -79,7 +79,7 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -100,10 +100,10 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String,
-      tags: null == tags
+      tags: freezed == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       updated: null == updated
           ? _value.updated
           : updated // ignore: cast_nullable_to_non_nullable
@@ -123,13 +123,13 @@ abstract class _$$_PersonCopyWith<$Res> implements $PersonCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       int? age,
       DateTime? birthday,
       String? email,
       String memo,
-      List<String> tags,
+      List<String>? tags,
       DateTime updated,
       DateTime created});
 }
@@ -150,7 +150,7 @@ class __$$_PersonCopyWithImpl<$Res>
     Object? birthday = freezed,
     Object? email = freezed,
     Object? memo = null,
-    Object? tags = null,
+    Object? tags = freezed,
     Object? updated = null,
     Object? created = null,
   }) {
@@ -158,7 +158,7 @@ class __$$_PersonCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -179,10 +179,10 @@ class __$$_PersonCopyWithImpl<$Res>
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String,
-      tags: null == tags
+      tags: freezed == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       updated: null == updated
           ? _value.updated
           : updated // ignore: cast_nullable_to_non_nullable
@@ -205,7 +205,7 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
       this.birthday,
       this.email,
       required this.memo,
-      required final List<String> tags,
+      final List<String>? tags,
       required this.updated,
       required this.created})
       : _tags = tags;
@@ -214,7 +214,7 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
       _$$_PersonFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   @override
@@ -225,12 +225,14 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
   final String? email;
   @override
   final String memo;
-  final List<String> _tags;
+  final List<String>? _tags;
   @override
-  List<String> get tags {
+  List<String>? get tags {
+    final value = _tags;
+    if (value == null) return null;
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tags);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -297,20 +299,20 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
 
 abstract class _Person implements Person {
   const factory _Person(
-      {required final int id,
+      {required final String id,
       required final String name,
       final int? age,
       final DateTime? birthday,
       final String? email,
       required final String memo,
-      required final List<String> tags,
+      final List<String>? tags,
       required final DateTime updated,
       required final DateTime created}) = _$_Person;
 
   factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override
@@ -322,7 +324,7 @@ abstract class _Person implements Person {
   @override
   String get memo;
   @override
-  List<String> get tags;
+  List<String>? get tags;
   @override
   DateTime get updated;
   @override

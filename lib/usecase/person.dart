@@ -6,6 +6,7 @@ abstract class PersonUsecase {
   Future<List<Person>> getPersonList();
   Stream<List<Person>> watchPersonList();
   Future<void> addPerson(Person person);
+  Future<void> removePerson(String id);
 }
 
 class PersonUsecaseImpl implements PersonUsecase {
@@ -35,6 +36,11 @@ class PersonUsecaseImpl implements PersonUsecase {
   @override
   Future<void> addPerson(Person person) async {
     final newPersonRef = FirebaseDatabase.instance.ref('note/$userId').push();
-    await newPersonRef.set(person.toJson());
+    await newPersonRef.set(person.copyWith(id: newPersonRef.key!).toJson());
+  }
+
+  @override
+  Future<void> removePerson(String id) async {
+    await FirebaseDatabase.instance.ref('note/$userId/$id').remove();
   }
 }
