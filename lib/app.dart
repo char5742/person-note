@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:person_note/provider/auth.dart';
+import 'package:person_note/provider/account.dart';
 
 import 'page/create.dart';
 import 'page/detail.dart';
@@ -11,7 +11,7 @@ import 'page/top.dart';
 // GoRouter configuration
 final _routerProvider = Provider((ref) => GoRouter(
       redirect: (context, state) async {
-        if (ref.watch(myAccountProvider.notifier).state == null) {
+        if (ref.watch(accountProvider) == null) {
           return state.subloc == '/login' ? null : '/login';
         }
         // Transition to the top page after the login process is complete.

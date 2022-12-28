@@ -1,9 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:person_note/model/auth/account.dart';
 
 abstract class AuthUsecase {
-  Future<UserCredential> signInWithGoogle();
+  Future<Account?> signInWithGoogle();
+
+  /// Returns a future that Account if already signedIn.
+  Future<Account?> currentAccount();
+
+  /// Require call in main funciton
   Future<void> init();
 }
 
@@ -13,7 +19,15 @@ class AuthUsecaseImpl implements AuthUsecase {
   static final AuthUsecaseImpl instance = AuthUsecaseImpl._internal();
 
   @override
-  Future<UserCredential> signInWithGoogle() async {
+  Future<Account?> currentAccount() async {
+    if (await GoogleSignIn().isSignedIn()) {
+      return await AuthUsecaseImpl.instance.signInWithGoogle();
+    }
+    return null;
+  }
+
+  @override
+  Future<Account?> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     // Obtain the auth details from the request
@@ -27,7 +41,13 @@ class AuthUsecaseImpl implements AuthUsecase {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    final user = await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((value) => value.user);
+    if (user == null) {
+      return null;
+    }
+    return Account(uid: user.uid, displayName: user.displayName ?? 'Unknown');
   }
 
   @override
