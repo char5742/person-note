@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>490930282376-j8o6qllq1cd7042uhromair1r3fev67s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.490930282376-j8o6qllq1cd7042uhromair1r3fev67s</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBODxBgXdqEM4B_xA4E7dsmbZ9VqhrCQjE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>490930282376</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.personMemo</string>
+	<key>PROJECT_ID</key>
+	<string>person-note-d625a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>person-note-d625a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:490930282376:ios:157e907484ebd80ea8e43d</string>
+</dict>
+</plist>

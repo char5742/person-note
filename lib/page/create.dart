@@ -24,10 +24,10 @@ class CreatePage extends HookConsumerWidget {
       appBar: AppBar(
         actions: [
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (formKey.currentState!.validate()) {
                 final person = Person(
-                  id: 0,
+                  id: "",
                   name: nameConteroller.text,
                   age: int.tryParse(ageConteroller.text),
                   email: emailConteroller.text,
@@ -37,8 +37,10 @@ class CreatePage extends HookConsumerWidget {
                   created: DateTime.now(),
                   updated: DateTime.now(),
                 );
-                ref.read(personListProvider).add(person);
-                context.go('/');
+                await ref
+                    .read(personProvider)
+                    .addPerson(person)
+                    .then((value) => context.go('/'));
               }
             },
             child: const Text(

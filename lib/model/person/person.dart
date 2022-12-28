@@ -7,13 +7,13 @@ part 'person.g.dart';
 @freezed
 class Person with _$Person {
   const factory Person({
-    required int id,
+    required String id,
     required String name,
     int? age,
     DateTime? birthday,
     String? email,
     required String memo,
-    required List<String> tags,
+    List<String>? tags,
     required DateTime updated,
     required DateTime created,
   }) = _Person;

@@ -20,7 +20,7 @@ class TopPage extends HookConsumerWidget {
             child: Column(children: [
               Text(person.name, style: theme.textTheme.headlineSmall),
               Row(
-                children: person.tags.map((e) => Card(child: Text(e))).toList(),
+                children: [...?person.tags?.map((e) => Card(child: Text(e)))],
               ),
             ]),
           ),
@@ -38,13 +38,19 @@ class TopPage extends HookConsumerWidget {
         ],
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: Container(
-        padding: const EdgeInsets.only(top: 100),
-        alignment: Alignment.center,
-        child: Column(
-          children: ref.watch(personListProvider).map(personCard).toList(),
-        ),
-      ),
+      body: ref.watch(personListProvider).when(
+            data: (data) => Container(
+              padding: const EdgeInsets.only(top: 100),
+              alignment: Alignment.center,
+              child: Column(
+                children: data.map(personCard).toList(),
+              ),
+            ),
+            loading: () => const CircularProgressIndicator(),
+            error: (error, stackTrace) => Container(
+              child: Text(error.toString()),
+            ),
+          ),
     );
   }
 }
