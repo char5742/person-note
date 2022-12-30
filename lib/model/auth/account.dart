@@ -8,8 +8,10 @@ part 'account.g.dart';
 class Account with _$Account {
   const factory Account({
     required String uid,
-    required String displayName,
+    String? email,
+    String? displayName,
   }) = _Account;
 
-  factory Account.fromJson(Map<String, Object?> json) => _$AccountFromJson(json);
+  factory Account.fromJson(Map<String, Object?> json) =>
+      _$AccountFromJson(json);
 }

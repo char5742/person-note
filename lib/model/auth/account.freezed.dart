@@ -21,7 +21,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Account {
   String get uid => throw _privateConstructorUsedError;
-  String get displayName => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get displayName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $AccountCopyWith<$Res> {
   factory $AccountCopyWith(Account value, $Res Function(Account) then) =
       _$AccountCopyWithImpl<$Res, Account>;
   @useResult
-  $Res call({String uid, String displayName});
+  $Res call({String uid, String? email, String? displayName});
 }
 
 /// @nodoc
@@ -50,17 +51,22 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
   @override
   $Res call({
     Object? uid = null,
-    Object? displayName = null,
+    Object? email = freezed,
+    Object? displayName = freezed,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      displayName: null == displayName
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -72,7 +78,7 @@ abstract class _$$_AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
       __$$_AccountCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uid, String displayName});
+  $Res call({String uid, String? email, String? displayName});
 }
 
 /// @nodoc
@@ -86,17 +92,22 @@ class __$$_AccountCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uid = null,
-    Object? displayName = null,
+    Object? email = freezed,
+    Object? displayName = freezed,
   }) {
     return _then(_$_Account(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      displayName: null == displayName
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -104,7 +115,7 @@ class __$$_AccountCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Account with DiagnosticableTreeMixin implements _Account {
-  const _$_Account({required this.uid, required this.displayName});
+  const _$_Account({required this.uid, this.email, this.displayName});
 
   factory _$_Account.fromJson(Map<String, dynamic> json) =>
       _$$_AccountFromJson(json);
@@ -112,11 +123,13 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
   @override
   final String uid;
   @override
-  final String displayName;
+  final String? email;
+  @override
+  final String? displayName;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Account(uid: $uid, displayName: $displayName)';
+    return 'Account(uid: $uid, email: $email, displayName: $displayName)';
   }
 
   @override
@@ -125,6 +138,7 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
     properties
       ..add(DiagnosticsProperty('type', 'Account'))
       ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('displayName', displayName));
   }
 
@@ -134,13 +148,14 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
         (other.runtimeType == runtimeType &&
             other is _$_Account &&
             (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, displayName);
+  int get hashCode => Object.hash(runtimeType, uid, email, displayName);
 
   @JsonKey(ignore: true)
   @override
@@ -159,14 +174,17 @@ class _$_Account with DiagnosticableTreeMixin implements _Account {
 abstract class _Account implements Account {
   const factory _Account(
       {required final String uid,
-      required final String displayName}) = _$_Account;
+      final String? email,
+      final String? displayName}) = _$_Account;
 
   factory _Account.fromJson(Map<String, dynamic> json) = _$_Account.fromJson;
 
   @override
   String get uid;
   @override
-  String get displayName;
+  String? get email;
+  @override
+  String? get displayName;
   @override
   @JsonKey(ignore: true)
   _$$_AccountCopyWith<_$_Account> get copyWith =>
