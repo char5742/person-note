@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:person_note/provider/account.dart';
 import 'package:person_note/usecase/auth.dart';
 
 import 'firebase_options.dart';
@@ -13,11 +12,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AuthUsecaseImpl.instance.init();
-  final account = await AuthUsecaseImpl.instance.currentAccount();
-  runApp(ProviderScope(
-    overrides: [
-      accountProvider.overrideWith((_) => account),
-    ],
-    child: const App(),
+  await AuthUsecaseImpl.instance.currentAccount();
+  runApp(const ProviderScope(
+    child: App(),
   ));
 }
