@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/model/person/person.dart';
+import 'package:person_note/provider/account.dart';
+import 'package:person_note/provider/auth.dart';
 import 'package:person_note/provider/person.dart';
+
+import 'component.dart';
 
 class TopPage extends HookConsumerWidget {
   const TopPage({super.key});
@@ -11,18 +15,33 @@ class TopPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     Widget personCard(Person person) {
-      return SizedBox(
-        width: 200,
+      return ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 300,
+          minHeight: 70,
+        ),
         child: Card(
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () => context.go('/detail?id=${person.id}'),
-            child: Column(children: [
-              Text(person.name, style: theme.textTheme.headlineSmall),
-              Row(
-                children: [...?person.tags?.map((e) => Card(child: Text(e)))],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  // Really want to put a header icon.
+                  const CirclePersonIconBox(size: 48),
+                  const Padding(padding: EdgeInsets.only(left: 8.0)),
+                  Column(children: [
+                    Text(person.name, style: theme.textTheme.headlineSmall),
+                    Row(
+                      children: [
+                        ...?person.tags?.map((e) => Card(child: Text(e)))
+                      ],
+                    ),
+                  ]),
+                ],
               ),
-            ]),
+            ),
           ),
         ),
       );
@@ -40,10 +59,11 @@ class TopPage extends HookConsumerWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       body: ref.watch(personListProvider).when(
             data: (data) => Container(
-              padding: const EdgeInsets.only(top: 100),
-              alignment: Alignment.center,
-              child: Column(
-                children: data.map(personCard).toList(),
+              padding: const EdgeInsets.only(top: 50),
+              child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) =>
+                    data.map(personCard).toList()[index],
               ),
             ),
             loading: () => const CircularProgressIndicator(),
@@ -51,6 +71,28 @@ class TopPage extends HookConsumerWidget {
               child: Text(error.toString()),
             ),
           ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                children: [
+                  Text(ref.watch(accountProvider)?.email ?? ''),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      child: TextButton(
+                        onPressed: () => ref.read(authProvider).signOut(),
+                        child: const Text('sign out'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
