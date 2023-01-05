@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/provider/account.dart';
 
+import 'const/color.dart';
 import 'page/create.dart';
 import 'page/detail.dart';
 import 'page/login.dart';
@@ -49,14 +50,16 @@ class App extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      theme: ThemeData(
+      theme: ThemeData.from(
         useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF38d18c),
+        colorScheme: ColorScheme.fromSeed(seedColor: sheedColor),
       ),
-      darkTheme: ThemeData(
+      darkTheme: ThemeData.from(
         useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF38d18c),
-        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: sheedColor,
+          brightness: Brightness.dark,
+        ),
       ),
       routerConfig: ref.watch(_routerProvider),
     );
