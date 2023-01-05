@@ -31,14 +31,17 @@ class TopPage extends HookConsumerWidget {
                   // Really want to put a header icon.
                   const CirclePersonIconBox(size: 48),
                   const Padding(padding: EdgeInsets.only(left: 8.0)),
-                  Column(children: [
-                    Text(person.name, style: theme.textTheme.headlineSmall),
-                    Row(
-                      children: [
-                        ...?person.tags?.map((e) => Card(child: Text(e)))
-                      ],
-                    ),
-                  ]),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(person.name, style: theme.textTheme.headlineSmall),
+                      Row(
+                        children: [
+                          ...?person.tags?.map((e) => Card(child: Text(e)))
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
