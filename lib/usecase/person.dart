@@ -16,20 +16,22 @@ class PersonUsecaseImpl implements PersonUsecase {
   Future<List<Person>> getPersonList() async {
     final event = await FirebaseDatabase.instance.ref('note/$userId').once();
     if (!event.snapshot.exists) return [];
-    return (event.snapshot.value as Map)
-        .values
-        .map((value) => Person.fromJson(Map<String, Object>.from(value)))
-        .toList();
+    return (event.snapshot.value as Map?)
+            ?.values
+            .map((value) => Person.fromJson(Map<String, Object>.from(value)))
+            .toList() ??
+        [];
   }
 
   @override
   Stream<List<Person>> watchPersonList() async* {
     final stream = FirebaseDatabase.instance.ref('note/$userId').onValue;
     await for (final event in stream) {
-      yield (event.snapshot.value as Map)
-          .values
-          .map((value) => Person.fromJson(Map<String, Object>.from(value)))
-          .toList();
+      yield (event.snapshot.value as Map?)
+              ?.values
+              .map((value) => Person.fromJson(Map<String, Object>.from(value)))
+              .toList() ??
+          [];
     }
   }
 
