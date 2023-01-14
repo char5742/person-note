@@ -25,7 +25,7 @@ class LoginPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Assets.img.appLogo.svg(color: sheedColor),
+            Assets.img.appLogo.svg(color: seedColor),
             ElevatedButton(
               onPressed: signInWithGoogle,
               child: const Text("Sign In"),
