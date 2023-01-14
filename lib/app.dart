@@ -52,12 +52,12 @@ class App extends HookConsumerWidget {
     return MaterialApp.router(
       theme: ThemeData.from(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: sheedColor),
+        colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
       ),
       darkTheme: ThemeData.from(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: sheedColor,
+          seedColor: seedColor,
           brightness: Brightness.dark,
         ),
       ),
