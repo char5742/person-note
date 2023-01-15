@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/provider/person.dart';
 
-import 'component.dart';
+import '../component.dart';
 
 class DetailPage extends HookConsumerWidget {
   final String personId;
@@ -31,7 +32,9 @@ class DetailPage extends HookConsumerWidget {
                   children: [
                     const CirclePersonIconBox(),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text('Edit Note'))
+                        onPressed: () =>
+                            context.go('/detail/edit?id=$personId'),
+                        child: const Text('Edit Note'))
                   ],
                 ),
                 Text(person.email ?? '', style: theme.textTheme.bodyMedium),
