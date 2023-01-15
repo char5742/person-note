@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class CirclePersonIconBox extends StatelessWidget {
   final double? size;
@@ -26,5 +27,23 @@ class CirclePersonIconBox extends StatelessWidget {
         ),
       )),
     );
+  }
+}
+
+class CustomMonthDayPicker extends DatePickerModel {
+  CustomMonthDayPicker(
+      {DateTime? currentTime,
+      DateTime? minTime,
+      DateTime? maxTime,
+      LocaleType? locale})
+      : super(
+            locale: locale,
+            minTime: minTime,
+            maxTime: maxTime,
+            currentTime: currentTime);
+
+  @override
+  List<int> layoutProportions() {
+    return [0, 1, 1];
   }
 }
