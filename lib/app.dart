@@ -7,6 +7,7 @@ import 'const/color.dart';
 import 'page/create.dart';
 import 'page/detail/detail.dart';
 import 'page/detail/edit.dart';
+import 'page/detail/event/event_create.dart';
 import 'page/login.dart';
 import 'page/top.dart';
 
@@ -46,6 +47,11 @@ final _routerProvider = Provider(
                 builder: (context, state) =>
                     EditPage(personId: state.queryParams['id']!),
               ),
+              GoRoute(
+                path: 'create_event',
+                builder: (context, state) =>
+                    EventCreatePage(personId: state.queryParams['id']!),
+              )
             ],
           ),
         ],
