@@ -8,25 +8,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:490930282376:android:7119afacbeafefb2a8e43d",
+        "mobilesdk_app_id": "1:490930282376:android:dfad7d885a37d881a8e43d",
         "android_client_info": {
-          "package_name": "com.example.person_memo"
+          "package_name": "com.example.person_note"
         }
       },
       "oauth_client": [
         {
-          "client_id": "490930282376-6jg88p818oui6ndhc7qmp20j5ni45blv.apps.googleusercontent.com",
+          "client_id": "490930282376-a18fcj1vjeakl5cof5c1h024oj3gbonr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.person_memo",
+            "package_name": "com.example.person_note",
             "certificate_hash": "4564964913cb30d86ba024c72a4bd231a267212b"
           }
         },
         {
-          "client_id": "490930282376-sqhi28590p7ovft6nuqi3lekt8ng69pt.apps.googleusercontent.com",
+          "client_id": "490930282376-suagl9kuc9o94f51jk2e2s83d335j2eo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.person_memo",
+            "package_name": "com.example.person_note",
             "certificate_hash": "0a9f5b2d410a685b73aa5c5c25ec0d0379cf5491"
           }
         },
@@ -48,10 +48,10 @@
               "client_type": 3
             },
             {
-              "client_id": "490930282376-j8o6qllq1cd7042uhromair1r3fev67s.apps.googleusercontent.com",
+              "client_id": "490930282376-clt6njhkkm2v9vs101adgaab7mbq5pdt.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.personMemo"
+                "bundle_id": "com.example.person-note"
               }
             }
           ]
