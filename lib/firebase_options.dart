@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD2aF_jGfpj_eUdxovtLryf1HoaP8_3_8s',
-    appId: '1:490930282376:android:7119afacbeafefb2a8e43d',
+    appId: '1:490930282376:android:dfad7d885a37d881a8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
     databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
@@ -65,7 +65,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBODxBgXdqEM4B_xA4E7dsmbZ9VqhrCQjE',
-    appId: '1:490930282376:ios:157e907484ebd80ea8e43d',
+    appId: '1:490930282376:ios:65a4c02c2cb8ce31a8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
     databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
@@ -77,7 +77,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBODxBgXdqEM4B_xA4E7dsmbZ9VqhrCQjE',
-    appId: '1:490930282376:ios:157e907484ebd80ea8e43d',
+    appId: '1:490930282376:ios:65a4c02c2cb8ce31a8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
     databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
