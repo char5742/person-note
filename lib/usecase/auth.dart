@@ -7,11 +7,11 @@ abstract class AuthUsecase {
   Future<Account?> signInWithGoogle();
 
   /// Returns a future that Account if already signedIn.
-  Future<Account?> currentAccount();
+  Account? currentAccount();
 
   Future<void> signOut();
 
-  Stream<Account?> get onCurrentUserChanged;
+  Stream<Account?> get userChanges;
 
   /// Require call in main funciton
   Future<void> init();
@@ -23,9 +23,14 @@ class AuthUsecaseImpl implements AuthUsecase {
   static final AuthUsecaseImpl instance = AuthUsecaseImpl._internal();
 
   @override
-  Future<Account?> currentAccount() async {
-    if (await GoogleSignIn().isSignedIn()) {
-      return await AuthUsecaseImpl.instance.signInWithGoogle();
+  Account? currentAccount() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      final user = FirebaseAuth.instance.currentUser!;
+      return Account(
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+      );
     }
     return null;
   }
@@ -39,8 +44,8 @@ class AuthUsecaseImpl implements AuthUsecase {
   }
 
   @override
-  Stream<Account?> get onCurrentUserChanged =>
-      FirebaseAuth.instance.idTokenChanges().asyncMap<Account?>(
+  Stream<Account?> get userChanges =>
+      FirebaseAuth.instance.userChanges().asyncMap<Account?>(
         (user) async {
           if (user == null) {
             return null;
