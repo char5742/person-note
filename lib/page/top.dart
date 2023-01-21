@@ -69,7 +69,7 @@ class TopPage extends HookConsumerWidget {
                     data.map(personCard).toList()[index],
               ),
             ),
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Container(
               child: Text(error.toString()),
             ),

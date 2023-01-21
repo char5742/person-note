@@ -99,10 +99,12 @@ class EventCreatePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(personByIdProvider(personId)).isLoading) {
+    final isProcessing = useState(false);
+    if (!ref.watch(personByIdProvider(personId)).hasValue) {
       return const CircularProgressIndicator();
     }
     final person = ref.watch(personByIdProvider(personId)).value!;
+
     final formKey = useMemoized(GlobalKey<FormState>.new, const []);
     final theme = Theme.of(context);
     final textConteroller = useTextEditingController();
@@ -117,23 +119,27 @@ class EventCreatePage extends HookConsumerWidget {
         ),
         actions: [
           ElevatedButton(
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                final event = Event(
-                  id: "",
-                  dateTime: dateTime.value,
-                  text: textConteroller.text,
-                  personIdList: personList.value.map((e) => e.id).toList(),
-                  tags: tags.value,
-                  created: DateTime.now(),
-                  updated: DateTime.now(),
-                );
-                await ref
-                    .read(eventProvider)
-                    .addEvent(event)
-                    .then((value) => context.go('/'));
-              }
-            },
+            onPressed: isProcessing.value
+                ? null
+                : () async {
+                    isProcessing.value = true;
+                    if (formKey.currentState!.validate()) {
+                      final event = Event(
+                        id: "",
+                        dateTime: dateTime.value,
+                        text: textConteroller.text,
+                        personIdList:
+                            personList.value.map((e) => e.id).toList(),
+                        tags: tags.value,
+                        created: DateTime.now(),
+                        updated: DateTime.now(),
+                      );
+                      await ref
+                          .read(eventProvider)
+                          .addEvent(event)
+                          .then((value) => context.go('/'));
+                    }
+                  },
             child: const Text(
               'Add Event',
             ),

@@ -15,8 +15,9 @@ class EditPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(personByIdProvider(personId)).isLoading) {
-      return const CircularProgressIndicator();
+    final isProcessing = useState(false);
+    if (!ref.watch(personByIdProvider(personId)).hasValue) {
+      return const Center(child: CircularProgressIndicator());
     }
     final person = ref.watch(personByIdProvider(personId)).value!;
 
@@ -33,23 +34,27 @@ class EditPage extends HookConsumerWidget {
       appBar: AppBar(
         actions: [
           ElevatedButton(
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                final editedPerson = person.copyWith(
-                  name: nameConteroller.text,
-                  age: int.tryParse(ageConteroller.text),
-                  email: emailConteroller.text,
-                  birthday: birthday.value,
-                  memo: memoConteroller.text,
-                  tags: tags.value,
-                  updated: DateTime.now(),
-                );
-                await ref
-                    .read(personProvider)
-                    .editPerson(editedPerson)
-                    .then((value) => context.pop());
-              }
-            },
+            onPressed: isProcessing.value
+                ? null
+                : () async {
+                    isProcessing.value = true;
+
+                    if (formKey.currentState!.validate()) {
+                      final editedPerson = person.copyWith(
+                        name: nameConteroller.text,
+                        age: int.tryParse(ageConteroller.text),
+                        email: emailConteroller.text,
+                        birthday: birthday.value,
+                        memo: memoConteroller.text,
+                        tags: tags.value,
+                        updated: DateTime.now(),
+                      );
+                      await ref
+                          .read(personProvider)
+                          .editPerson(editedPerson)
+                          .then((value) => context.pop());
+                    }
+                  },
             child: const Text(
               'Save',
             ),
