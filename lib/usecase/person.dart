@@ -25,16 +25,15 @@ class PersonUsecaseImpl implements PersonUsecase {
 
   @override
   Stream<List<Person>> watchPersonList() async* {
-    yield await getPersonList();
     final collectionStream = FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('persons')
         .snapshots();
     await for (final snapshot in collectionStream) {
-      yield snapshot.docs.map((docRef) {
-        return Person.fromJson(docRef.data());
-      }).toList();
+      yield snapshot.docs
+          .map((docRef) => Person.fromJson(docRef.data()))
+          .toList();
     }
   }
 
