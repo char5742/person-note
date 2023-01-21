@@ -14,6 +14,7 @@ class CreatePage extends HookConsumerWidget {
   const CreatePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isProcessing = useState(false);
     final formKey = useMemoized(GlobalKey<FormState>.new, const []);
     final theme = Theme.of(context);
     final nameConteroller = useTextEditingController();
@@ -26,25 +27,28 @@ class CreatePage extends HookConsumerWidget {
       appBar: AppBar(
         actions: [
           ElevatedButton(
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                final person = Person(
-                  id: "",
-                  name: nameConteroller.text,
-                  age: int.tryParse(ageConteroller.text),
-                  email: emailConteroller.text,
-                  birthday: birthday.value,
-                  memo: memoConteroller.text,
-                  tags: tags.value,
-                  created: DateTime.now(),
-                  updated: DateTime.now(),
-                );
-                await ref
-                    .read(personProvider)
-                    .addPerson(person)
-                    .then((value) => context.go('/'));
-              }
-            },
+            onPressed: isProcessing.value
+                ? null
+                : () async {
+                    isProcessing.value = true;
+                    if (formKey.currentState!.validate()) {
+                      final person = Person(
+                        id: "",
+                        name: nameConteroller.text,
+                        age: int.tryParse(ageConteroller.text),
+                        email: emailConteroller.text,
+                        birthday: birthday.value,
+                        memo: memoConteroller.text,
+                        tags: tags.value,
+                        created: DateTime.now(),
+                        updated: DateTime.now(),
+                      );
+                      await ref
+                          .read(personProvider)
+                          .addPerson(person)
+                          .then((value) => context.go('/'));
+                    }
+                  },
             child: const Text(
               'Add Person',
             ),
