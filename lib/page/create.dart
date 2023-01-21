@@ -30,8 +30,8 @@ class CreatePage extends HookConsumerWidget {
             onPressed: isProcessing.value
                 ? null
                 : () async {
-                    isProcessing.value = true;
                     if (formKey.currentState!.validate()) {
+                      isProcessing.value = true;
                       final person = Person(
                         id: "",
                         name: nameConteroller.text,

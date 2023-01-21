@@ -119,8 +119,8 @@ class EventCreatePage extends HookConsumerWidget {
             onPressed: isProcessing.value
                 ? null
                 : () async {
-                    isProcessing.value = true;
                     if (formKey.currentState!.validate()) {
+                      isProcessing.value = true;
                       final event = Event(
                         id: "",
                         dateTime: dateTime.value,
@@ -132,7 +132,7 @@ class EventCreatePage extends HookConsumerWidget {
                       await ref
                           .read(eventProvider)
                           .addEvent(event)
-                          .then((value) => context.go('/'));
+                          .then((value) => context.pop());
                     }
                   },
             child: const Text(
