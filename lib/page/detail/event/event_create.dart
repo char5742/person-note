@@ -137,7 +137,7 @@ class EventCreatePage extends HookConsumerWidget {
                       await ref
                           .read(eventProvider)
                           .addEvent(event)
-                          .then((value) => context.go('/'));
+                          .then((value) => context.pop());
                     }
                   },
             child: const Text(
