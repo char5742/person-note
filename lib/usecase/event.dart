@@ -1,10 +1,11 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:person_note/model/event/event.dart';
 
 abstract class EventUsecase {
   EventUsecase(String userId);
   Future<List<Event>> getEventList();
   Stream<List<Event>> watchEventList();
+  Stream<List<Event>> watchEventListByPersonId(String personId);
   Future<void> addEvent(Event event);
   Future<void> removeEvent(String id);
   Future<void> editEvent(Event event);
@@ -15,41 +16,70 @@ class EventUsecaseImpl implements EventUsecase {
   EventUsecaseImpl(this.userId);
   @override
   Future<List<Event>> getEventList() async {
-    final event = await FirebaseDatabase.instance.ref('event/$userId').once();
-    if (!event.snapshot.exists) return [];
-    return (event.snapshot.value as Map?)
-            ?.values
-            .map((value) => Event.fromJson(Map<String, Object>.from(value)))
-            .toList() ??
-        [];
+    final collectionRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('events')
+        .get();
+    return collectionRef.docs.map((e) => Event.fromJson(e.data())).toList();
   }
 
   @override
   Stream<List<Event>> watchEventList() async* {
-    final stream = FirebaseDatabase.instance.ref('event/$userId').onValue;
-    await for (final event in stream) {
-      yield (event.snapshot.value as Map?)
-              ?.values
-              .map((value) => Event.fromJson(Map<String, Object>.from(value)))
-              .toList() ??
-          [];
+    final collectionStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('events')
+        .snapshots();
+    await for (final snapshot in collectionStream) {
+      yield snapshot.docs
+          .map((docRef) => Event.fromJson(docRef.data()))
+          .toList();
+    }
+  }
+
+  @override
+  Stream<List<Event>> watchEventListByPersonId(String personId) async* {
+    final collectionStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('events')
+        .where('personIdList', arrayContains: personId)
+        .snapshots();
+    await for (final snapshot in collectionStream) {
+      yield snapshot.docs
+          .map((docRef) => Event.fromJson(docRef.data()))
+          .toList();
     }
   }
 
   @override
   Future<void> addEvent(Event event) async {
-    final newEventRef = FirebaseDatabase.instance.ref('event/$userId').push();
-    await newEventRef.set(event.copyWith(id: newEventRef.key!).toJson());
+    final collectionRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('events');
+    final docRef = collectionRef.doc();
+    await docRef.set(event.copyWith(id: docRef.id).toJson());
   }
 
   @override
   Future<void> removeEvent(String id) async {
-    await FirebaseDatabase.instance.ref('event/$userId/$id').remove();
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('events')
+        .doc(id);
+    await docRef.delete();
   }
 
   @override
   Future<void> editEvent(Event event) async {
-    final ref = FirebaseDatabase.instance.ref('event/$userId/${event.id}');
-    await ref.set(event.toJson());
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('persons')
+        .doc(event.id);
+    await docRef.update(event.toJson());
   }
 }

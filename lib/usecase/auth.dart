@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -89,11 +90,11 @@ class AuthUsecaseImpl implements AuthUsecase {
   Future<void> init() async {
     FirebaseAuth.instance.authStateChanges().listen((user) async {
       if (user != null) {
-        DatabaseReference ref =
-            FirebaseDatabase.instance.ref('users/${user.uid}');
-        final snapshot = await ref.get();
+        final docRef =
+            FirebaseFirestore.instance.collection('users').doc(user.uid);
+        final snapshot = await docRef.get();
         if (!snapshot.exists) {
-          await ref.set({
+          await docRef.set({
             "displayName": user.displayName,
             "createdAt": ServerValue.timestamp,
           });

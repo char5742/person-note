@@ -24,11 +24,7 @@ final eventByIdProvider = FutureProvider.family.autoDispose<Event, String>(
 );
 
 final eventByPersonIdProvider =
-    FutureProvider.family.autoDispose<List<Event>, String>(
-  (ref, personId) async => ref
-      .watch(eventListProvider)
-      .asData!
-      .value
-      .where((element) => (element.personIdList ?? []).contains(personId))
-      .toList(),
+    StreamProvider.family.autoDispose<List<Event>, String>(
+  (ref, personId) =>
+      ref.watch(eventProvider).watchEventListByPersonId(personId),
 );
