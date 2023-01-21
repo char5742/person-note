@@ -37,9 +37,8 @@ class EditPage extends HookConsumerWidget {
             onPressed: isProcessing.value
                 ? null
                 : () async {
-                    isProcessing.value = true;
-
                     if (formKey.currentState!.validate()) {
+                      isProcessing.value = true;
                       final editedPerson = person.copyWith(
                         name: nameConteroller.text,
                         age: int.tryParse(ageConteroller.text),
