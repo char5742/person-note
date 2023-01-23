@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:person_note/model/auth/account.dart';
+import 'package:person_note/model/account/account.dart';
 
 abstract class AuthUsecase {
   Future<Account?> signInWithGoogle();
