@@ -79,4 +79,9 @@ class PersonUsecaseTestImpl implements PersonUsecase {
   @override
   Stream<List<Person>> watchPersonList() =>
       Stream.value(personMap.values.toList());
+
+  @override
+  Future<void> editPerson(Person person) async {
+    personMap.update(person.id, (value) => person);
+  }
 }
