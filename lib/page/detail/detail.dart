@@ -27,37 +27,37 @@ class DetailPage extends HookConsumerWidget {
         onPressed: () => context.go('/detail/create_event?id=$personId'),
         child: const Icon(Icons.add),
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const CirclePersonIconBox(),
-                    ElevatedButton(
-                        onPressed: () =>
-                            context.go('/detail/edit?id=$personId'),
-                        child: const Text('Edit Note'))
-                  ],
-                ),
-                Text(person.email ?? '', style: theme.textTheme.bodyMedium),
-                const Padding(padding: EdgeInsets.only(top: 8.0)),
-                Text(person.memo, style: theme.textTheme.bodyLarge),
-                Text(
-                    '${person.age != null ? "${person.age}歳" : ""}  ${person.birthday != null ? "誕生日: ${person.birthday?.month}月${person.birthday?.day}日" : ""}',
-                    style: theme.textTheme.bodyLarge),
-                const Divider(),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const CirclePersonIconBox(),
+                      ElevatedButton(
+                          onPressed: () =>
+                              context.go('/detail/edit?id=$personId'),
+                          child: const Text('Edit Note'))
+                    ],
+                  ),
+                  Text(person.email ?? '', style: theme.textTheme.bodyMedium),
+                  const Padding(padding: EdgeInsets.only(top: 8.0)),
+                  Text(person.memo, style: theme.textTheme.bodyLarge),
+                  Text(
+                      '${person.age != null ? "${person.age}歳" : ""}  ${person.birthday != null ? "誕生日: ${person.birthday?.month}月${person.birthday?.day}日" : ""}',
+                      style: theme.textTheme.bodyLarge),
+                  const Divider(),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: EventList(personId: personId),
-          ),
-        ],
+            EventList(personId: personId),
+          ],
+        ),
       ),
     );
   }
@@ -147,86 +147,96 @@ class EventList extends HookConsumerWidget {
     return eventAsync.when(
       error: (e, s) => Container(),
       loading: () => const CircularProgressIndicator(),
-      data: (eventList) => ListView.builder(
-        itemCount: eventList.length,
-        itemBuilder: (context, index) {
-          final event = eventList[index];
-          return Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Card(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(formatDateTime(event.dateTime)),
-                        Text(
-                          event.text,
-                          style: textTheme.bodyLarge,
-                        ),
-                        Row(
-                          children: [
-                            ...?event.personIdList?.map(
-                              (personId) => HookConsumer(
-                                builder: (context, ref, child) {
-                                  final person =
-                                      ref.watch(personByIdProvider(personId));
-                                  return person.map(
-                                    data: (data) => Card(
-                                      child: Row(
-                                        children: [
-                                          const CirclePersonIconBox(
-                                            size: 16,
-                                          ),
-                                          const Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 4.0)),
-                                          Text(data.value.name),
-                                        ],
-                                      ),
-                                    ),
-                                    error: (_) => Container(),
-                                    loading: (_) =>
-                                        const CircularProgressIndicator(),
-                                  );
-                                },
+      data: (eventList) => Column(
+        children: [
+          ...eventList.map(
+            (event) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Card(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(formatDateTime(event.dateTime)),
+                              Text(
+                                event.text,
+                                style: textTheme.bodyLarge,
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () => bottomSheet(
-                      context,
-                      onDelete: () => ref
-                          .read(eventProvider)
-                          .removeEvent(event.id)
-                          .then((value) => context.pop()),
-                      onEdit: () => context
-                          .push('/detail/edit_event?event_id=${event.id}'),
-                    ),
-                    customBorder: const CircleBorder(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.more_vert,
-                        size: 20,
-                        color: colorScheme.outline,
+                              Wrap(
+                                children: [
+                                  ...?event.personIdList?.map(
+                                    (personId) => HookConsumer(
+                                      builder: (context, ref, child) {
+                                        final person = ref.watch(
+                                            personByIdProvider(personId));
+                                        return person.map(
+                                          data: (data) => Card(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const CirclePersonIconBox(
+                                                  size: 16,
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 4.0)),
+                                                Flexible(
+                                                  child: Text(
+                                                    data.value.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          error: (_) => Container(),
+                                          loading: (_) =>
+                                              const CircularProgressIndicator(),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () => bottomSheet(
+                          context,
+                          onDelete: () => ref
+                              .read(eventProvider)
+                              .removeEvent(event.id)
+                              .then((value) => context.pop()),
+                          onEdit: () => context
+                              .push('/detail/edit_event?event_id=${event.id}'),
+                        ),
+                        customBorder: const CircleBorder(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.more_vert,
+                            size: 20,
+                            color: colorScheme.outline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        },
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

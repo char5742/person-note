@@ -84,9 +84,8 @@ class TopPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     Widget personCard(Person person) {
-      return ConstrainedBox(
+      return Container(
         constraints: const BoxConstraints(
-          maxWidth: 300,
           minHeight: 70,
         ),
         child: Card(
@@ -96,30 +95,38 @@ class TopPage extends HookConsumerWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      // Really want to put a header icon.
-                      const CirclePersonIconBox(size: 48),
-                      const Padding(padding: EdgeInsets.only(left: 8.0)),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(person.name,
-                              style: theme.textTheme.headlineSmall),
-                          Row(
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        // Really want to put a header icon.
+                        const CirclePersonIconBox(size: 48),
+                        const Padding(padding: EdgeInsets.only(left: 8.0)),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ...?person.tags?.map((e) => Card(child: Text(e)))
+                              Text(
+                                person.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.headlineSmall,
+                              ),
+                              Wrap(
+                                children: [
+                                  ...?person.tags?.map((e) => Card(
+                                      child: Text(e,
+                                          overflow: TextOverflow.ellipsis)))
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Spacer(),
                 InkWell(
                   onTap: () => bottomSheet(
                     context,
