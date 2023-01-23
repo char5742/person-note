@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:person_note/model/auth/account.dart';
+import 'package:person_note/model/account/account.dart';
 import 'package:person_note/usecase/auth.dart';
 
 class AuthUsecaseTestImpl implements AuthUsecase {
@@ -11,7 +11,7 @@ class AuthUsecaseTestImpl implements AuthUsecase {
   final accountStream = StreamController<Account?>();
   bool isFirstCall = true;
   @override
-  Future<Account?> currentAccount() async {
+  Account? currentAccount() {
     return null;
   }
 
@@ -19,7 +19,7 @@ class AuthUsecaseTestImpl implements AuthUsecase {
   Future<void> init() async {}
 
   @override
-  Stream<Account?> get onCurrentUserChanged => accountStream.stream;
+  Stream<Account?> get userChanges => accountStream.stream;
 
   @override
   Future<Account?> signInWithGoogle() async {
