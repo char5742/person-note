@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:person_note/page/detail/event/event_edit.dart';
 import 'package:person_note/provider/account.dart';
 
 import 'const/color.dart';
@@ -51,7 +52,12 @@ final _routerProvider = Provider(
                 path: 'create_event',
                 builder: (context, state) =>
                     EventCreatePage(personId: state.queryParams['id']!),
-              )
+              ),
+              GoRoute(
+                path: 'edit_event',
+                builder: (context, state) =>
+                    EventEditPage(eventId: state.queryParams['event_id']!),
+              ),
             ],
           ),
         ],
