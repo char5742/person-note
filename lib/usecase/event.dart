@@ -78,7 +78,7 @@ class EventUsecaseImpl implements EventUsecase {
     final docRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
-        .collection('persons')
+        .collection('events')
         .doc(event.id);
     await docRef.update(event.toJson());
   }
