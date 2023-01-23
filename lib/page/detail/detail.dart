@@ -66,6 +66,66 @@ class DetailPage extends HookConsumerWidget {
 class EventList extends HookConsumerWidget {
   final String personId;
   const EventList({required this.personId, super.key});
+  Future<void> bottomSheet(context) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text(
+                              'Are you sure you want to delete this item?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {}, child: const Text('Cancel')),
+                            TextButton(
+                                onPressed: () {}, child: const Text('Delete')),
+                          ],
+                        );
+                      });
+                },
+                child: Row(
+                  children: const [
+                    Icon(Icons.delete, size: 28),
+                    Padding(padding: EdgeInsets.only(left: 10)),
+                    Text(
+                      'Delete Event',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Row(
+                  children: const [
+                    Icon(Icons.edit, size: 28),
+                    Padding(padding: EdgeInsets.only(left: 10)),
+                    Text(
+                      'Edit Event',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,7 +134,7 @@ class EventList extends HookConsumerWidget {
         (data) => data
           ..asData?.value.sort((a, b) => b.dateTime.compareTo(a.dateTime))));
     final textTheme = Theme.of(context).textTheme;
-
+    final colorScheme = Theme.of(context).colorScheme;
     return eventAsync.when(
       error: (e, s) => Container(),
       loading: () => const CircularProgressIndicator(),
@@ -86,48 +146,67 @@ class EventList extends HookConsumerWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(formatDateTime(event.dateTime)),
-                    Text(
-                      event.text,
-                      style: textTheme.bodyLarge,
-                    ),
-                    Row(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ...?event.personIdList?.map(
-                          (personId) => HookConsumer(
-                            builder: (context, ref, child) {
-                              if (ref
-                                  .watch(personByIdProvider(personId))
-                                  .isLoading) {
-                                return const CircularProgressIndicator();
-                              }
-                              final person = ref
-                                  .watch(personByIdProvider(personId))
-                                  .value!;
-                              return Card(
-                                child: Row(
-                                  children: [
-                                    const CirclePersonIconBox(
-                                      size: 16,
-                                    ),
-                                    const Padding(
-                                        padding: EdgeInsets.only(left: 4.0)),
-                                    Text(person.name),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                        Text(formatDateTime(event.dateTime)),
+                        Text(
+                          event.text,
+                          style: textTheme.bodyLarge,
                         ),
+                        Row(
+                          children: [
+                            ...?event.personIdList?.map(
+                              (personId) => HookConsumer(
+                                builder: (context, ref, child) {
+                                  if (ref
+                                      .watch(personByIdProvider(personId))
+                                      .isLoading) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                  final person = ref
+                                      .watch(personByIdProvider(personId))
+                                      .value!;
+                                  return Card(
+                                    child: Row(
+                                      children: [
+                                        const CirclePersonIconBox(
+                                          size: 16,
+                                        ),
+                                        const Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 4.0)),
+                                        Text(person.name),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () => bottomSheet(context),
+                    customBorder: const CircleBorder(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.more_vert,
+                        size: 20,
+                        color: colorScheme.outline,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
