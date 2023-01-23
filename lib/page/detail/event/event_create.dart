@@ -98,7 +98,7 @@ class EventCreatePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isProcessing = useState(false);
     if (!ref.watch(personByIdProvider(personId)).hasValue) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     }
     final person = ref.watch(personByIdProvider(personId)).value!;
 
