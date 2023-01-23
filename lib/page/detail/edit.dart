@@ -46,7 +46,6 @@ class EditPage extends HookConsumerWidget {
                         birthday: birthday.value,
                         memo: memoConteroller.text,
                         tags: tags.value,
-                        updated: DateTime.now(),
                       );
                       await ref
                           .read(personProvider)

@@ -27,8 +27,10 @@ mixin _$Person {
   String? get email => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
-  DateTime get updated => throw _privateConstructorUsedError;
-  DateTime get created => throw _privateConstructorUsedError;
+  @UpdatedConverter()
+  DateTime? get updated => throw _privateConstructorUsedError;
+  @CreatedConverter()
+  DateTime? get created => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,8 +50,8 @@ abstract class $PersonCopyWith<$Res> {
       String? email,
       String memo,
       List<String>? tags,
-      DateTime updated,
-      DateTime created});
+      @UpdatedConverter() DateTime? updated,
+      @CreatedConverter() DateTime? created});
 }
 
 /// @nodoc
@@ -72,8 +74,8 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
     Object? email = freezed,
     Object? memo = null,
     Object? tags = freezed,
-    Object? updated = null,
-    Object? created = null,
+    Object? updated = freezed,
+    Object? created = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -104,14 +106,14 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      updated: null == updated
+      updated: freezed == updated
           ? _value.updated
           : updated // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      created: null == created
+              as DateTime?,
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -130,8 +132,8 @@ abstract class _$$_PersonCopyWith<$Res> implements $PersonCopyWith<$Res> {
       String? email,
       String memo,
       List<String>? tags,
-      DateTime updated,
-      DateTime created});
+      @UpdatedConverter() DateTime? updated,
+      @CreatedConverter() DateTime? created});
 }
 
 /// @nodoc
@@ -151,8 +153,8 @@ class __$$_PersonCopyWithImpl<$Res>
     Object? email = freezed,
     Object? memo = null,
     Object? tags = freezed,
-    Object? updated = null,
-    Object? created = null,
+    Object? updated = freezed,
+    Object? created = freezed,
   }) {
     return _then(_$_Person(
       id: null == id
@@ -183,14 +185,14 @@ class __$$_PersonCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      updated: null == updated
+      updated: freezed == updated
           ? _value.updated
           : updated // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      created: null == created
+              as DateTime?,
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -206,8 +208,8 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
       this.email,
       required this.memo,
       final List<String>? tags,
-      required this.updated,
-      required this.created})
+      @UpdatedConverter() this.updated,
+      @CreatedConverter() this.created})
       : _tags = tags;
 
   factory _$_Person.fromJson(Map<String, dynamic> json) =>
@@ -236,9 +238,11 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
   }
 
   @override
-  final DateTime updated;
+  @UpdatedConverter()
+  final DateTime? updated;
   @override
-  final DateTime created;
+  @CreatedConverter()
+  final DateTime? created;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -306,8 +310,8 @@ abstract class _Person implements Person {
       final String? email,
       required final String memo,
       final List<String>? tags,
-      required final DateTime updated,
-      required final DateTime created}) = _$_Person;
+      @UpdatedConverter() final DateTime? updated,
+      @CreatedConverter() final DateTime? created}) = _$_Person;
 
   factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
 
@@ -326,9 +330,11 @@ abstract class _Person implements Person {
   @override
   List<String>? get tags;
   @override
-  DateTime get updated;
+  @UpdatedConverter()
+  DateTime? get updated;
   @override
-  DateTime get created;
+  @CreatedConverter()
+  DateTime? get created;
   @override
   @JsonKey(ignore: true)
   _$$_PersonCopyWith<_$_Person> get copyWith =>

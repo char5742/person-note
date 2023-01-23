@@ -40,8 +40,6 @@ class CreatePage extends HookConsumerWidget {
                         birthday: birthday.value,
                         memo: memoConteroller.text,
                         tags: tags.value,
-                        created: DateTime.now(),
-                        updated: DateTime.now(),
                       );
                       await ref
                           .read(personProvider)

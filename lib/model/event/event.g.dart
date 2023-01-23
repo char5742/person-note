@@ -14,8 +14,8 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
           ?.map((e) => e as String)
           .toList(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      updated: DateTime.parse(json['updated'] as String),
-      created: DateTime.parse(json['created'] as String),
+      updated: const UpdatedConverter().fromJson(json['updated']),
+      created: const CreatedConverter().fromJson(json['created']),
     );
 
 Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
@@ -24,6 +24,6 @@ Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
       'text': instance.text,
       'personIdList': instance.personIdList,
       'tags': instance.tags,
-      'updated': instance.updated.toIso8601String(),
-      'created': instance.created.toIso8601String(),
+      'updated': const UpdatedConverter().toJson(instance.updated),
+      'created': const CreatedConverter().toJson(instance.created),
     };

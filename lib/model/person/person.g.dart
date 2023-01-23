@@ -16,8 +16,8 @@ _$_Person _$$_PersonFromJson(Map<String, dynamic> json) => _$_Person(
       email: json['email'] as String?,
       memo: json['memo'] as String,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      updated: DateTime.parse(json['updated'] as String),
-      created: DateTime.parse(json['created'] as String),
+      updated: const UpdatedConverter().fromJson(json['updated']),
+      created: const CreatedConverter().fromJson(json['created']),
     );
 
 Map<String, dynamic> _$$_PersonToJson(_$_Person instance) => <String, dynamic>{
@@ -28,6 +28,6 @@ Map<String, dynamic> _$$_PersonToJson(_$_Person instance) => <String, dynamic>{
       'email': instance.email,
       'memo': instance.memo,
       'tags': instance.tags,
-      'updated': instance.updated.toIso8601String(),
-      'created': instance.created.toIso8601String(),
+      'updated': const UpdatedConverter().toJson(instance.updated),
+      'created': const CreatedConverter().toJson(instance.created),
     };

@@ -25,8 +25,10 @@ mixin _$Event {
   String get text => throw _privateConstructorUsedError;
   List<String>? get personIdList => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
-  DateTime get updated => throw _privateConstructorUsedError;
-  DateTime get created => throw _privateConstructorUsedError;
+  @UpdatedConverter()
+  DateTime? get updated => throw _privateConstructorUsedError;
+  @CreatedConverter()
+  DateTime? get created => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +46,8 @@ abstract class $EventCopyWith<$Res> {
       String text,
       List<String>? personIdList,
       List<String>? tags,
-      DateTime updated,
-      DateTime created});
+      @UpdatedConverter() DateTime? updated,
+      @CreatedConverter() DateTime? created});
 }
 
 /// @nodoc
@@ -66,8 +68,8 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
     Object? text = null,
     Object? personIdList = freezed,
     Object? tags = freezed,
-    Object? updated = null,
-    Object? created = null,
+    Object? updated = freezed,
+    Object? created = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -90,14 +92,14 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      updated: null == updated
+      updated: freezed == updated
           ? _value.updated
           : updated // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      created: null == created
+              as DateTime?,
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -114,8 +116,8 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       String text,
       List<String>? personIdList,
       List<String>? tags,
-      DateTime updated,
-      DateTime created});
+      @UpdatedConverter() DateTime? updated,
+      @CreatedConverter() DateTime? created});
 }
 
 /// @nodoc
@@ -132,8 +134,8 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
     Object? text = null,
     Object? personIdList = freezed,
     Object? tags = freezed,
-    Object? updated = null,
-    Object? created = null,
+    Object? updated = freezed,
+    Object? created = freezed,
   }) {
     return _then(_$_Event(
       id: null == id
@@ -156,14 +158,14 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      updated: null == updated
+      updated: freezed == updated
           ? _value.updated
           : updated // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      created: null == created
+              as DateTime?,
+      created: freezed == created
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -177,8 +179,8 @@ class _$_Event with DiagnosticableTreeMixin implements _Event {
       required this.text,
       final List<String>? personIdList,
       final List<String>? tags,
-      required this.updated,
-      required this.created})
+      @UpdatedConverter() this.updated,
+      @CreatedConverter() this.created})
       : _personIdList = personIdList,
         _tags = tags;
 
@@ -212,9 +214,11 @@ class _$_Event with DiagnosticableTreeMixin implements _Event {
   }
 
   @override
-  final DateTime updated;
+  @UpdatedConverter()
+  final DateTime? updated;
   @override
-  final DateTime created;
+  @CreatedConverter()
+  final DateTime? created;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -284,8 +288,8 @@ abstract class _Event implements Event {
       required final String text,
       final List<String>? personIdList,
       final List<String>? tags,
-      required final DateTime updated,
-      required final DateTime created}) = _$_Event;
+      @UpdatedConverter() final DateTime? updated,
+      @CreatedConverter() final DateTime? created}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
@@ -300,9 +304,11 @@ abstract class _Event implements Event {
   @override
   List<String>? get tags;
   @override
-  DateTime get updated;
+  @UpdatedConverter()
+  DateTime? get updated;
   @override
-  DateTime get created;
+  @CreatedConverter()
+  DateTime? get created;
   @override
   @JsonKey(ignore: true)
   _$$_EventCopyWith<_$_Event> get copyWith =>

@@ -1,6 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,8 +9,6 @@ import 'package:person_note/provider/event.dart';
 import 'package:person_note/provider/person.dart';
 import 'package:person_note/util/date_format.dart';
 import 'package:person_note/util/validator.dart';
-
-import '../../component.dart';
 
 class EventCreatePage extends HookConsumerWidget {
   final String personId;
@@ -131,8 +128,6 @@ class EventCreatePage extends HookConsumerWidget {
                         personIdList:
                             personList.value.map((e) => e.id).toList(),
                         tags: tags.value,
-                        created: DateTime.now(),
-                        updated: DateTime.now(),
                       );
                       await ref
                           .read(eventProvider)
