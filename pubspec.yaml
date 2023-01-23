@@ -37,6 +37,7 @@ dev_dependencies:
   freezed: ^2.3.2
   json_serializable: ^6.5.4
   flutter_gen_runner:
+  flutter_launcher_icons: ^0.11.0
 
 flutter:
   uses-material-design: true
@@ -48,6 +49,11 @@ flutter_gen:
   line_length: 80 
   integrations:
     flutter_svg: true
+  
+flutter_icons:
+  android: "launcher_icon"
+  image_path: "assets/img/app_icon.png"
 
 scripts:
   build: flutter pub run build_runner build --delete-conflicting-outputs
+  gen_icon: flutter pub run flutter_launcher_icons
