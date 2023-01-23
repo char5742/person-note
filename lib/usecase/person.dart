@@ -1,4 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:person_note/model/person/person.dart';
 
 abstract class PersonUsecase {
@@ -7,6 +7,7 @@ abstract class PersonUsecase {
   Stream<List<Person>> watchPersonList();
   Future<void> addPerson(Person person);
   Future<void> removePerson(String id);
+  Future<void> editPerson(Person person);
 }
 
 class PersonUsecaseImpl implements PersonUsecase {
@@ -14,35 +15,55 @@ class PersonUsecaseImpl implements PersonUsecase {
   PersonUsecaseImpl(this.userId);
   @override
   Future<List<Person>> getPersonList() async {
-    final event = await FirebaseDatabase.instance.ref('note/$userId').once();
-    if (!event.snapshot.exists) return [];
-    return (event.snapshot.value as Map?)
-            ?.values
-            .map((value) => Person.fromJson(Map<String, Object>.from(value)))
-            .toList() ??
-        [];
+    final collectionRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('persons')
+        .get();
+    return collectionRef.docs.map((e) => Person.fromJson(e.data())).toList();
   }
 
   @override
   Stream<List<Person>> watchPersonList() async* {
-    final stream = FirebaseDatabase.instance.ref('note/$userId').onValue;
-    await for (final event in stream) {
-      yield (event.snapshot.value as Map?)
-              ?.values
-              .map((value) => Person.fromJson(Map<String, Object>.from(value)))
-              .toList() ??
-          [];
+    final collectionStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('persons')
+        .snapshots();
+    await for (final snapshot in collectionStream) {
+      yield snapshot.docs
+          .map((docRef) => Person.fromJson(docRef.data()))
+          .toList();
     }
   }
 
   @override
   Future<void> addPerson(Person person) async {
-    final newPersonRef = FirebaseDatabase.instance.ref('note/$userId').push();
-    await newPersonRef.set(person.copyWith(id: newPersonRef.key!).toJson());
+    final collectionRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('persons');
+    final docRef = collectionRef.doc();
+    await docRef.set(person.copyWith(id: docRef.id).toJson());
   }
 
   @override
   Future<void> removePerson(String id) async {
-    await FirebaseDatabase.instance.ref('note/$userId/$id').remove();
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('persons')
+        .doc(id);
+    await docRef.delete();
+  }
+
+  @override
+  Future<void> editPerson(Person person) async {
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('persons')
+        .doc(person.id);
+    await docRef.update(person.toJson());
   }
 }

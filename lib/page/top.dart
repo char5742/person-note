@@ -10,6 +10,75 @@ import 'component.dart';
 
 class TopPage extends HookConsumerWidget {
   const TopPage({super.key});
+  Future<void> bottomSheet(context,
+      {Function()? onDelete, Function()? onEdit}) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text(
+                              'Are you sure you want to delete this item?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => context.pop(),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: onDelete,
+                              child: const Text('Delete'),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: Row(
+                  children: const [
+                    Icon(Icons.delete, size: 28),
+                    Padding(padding: EdgeInsets.only(left: 10)),
+                    Text(
+                      'Delete Note',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                  onEdit?.call();
+                },
+                child: Row(
+                  children: const [
+                    Icon(Icons.edit, size: 28),
+                    Padding(padding: EdgeInsets.only(left: 10)),
+                    Text(
+                      'Edit Note',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,26 +93,53 @@ class TopPage extends HookConsumerWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () => context.go('/detail?id=${person.id}'),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  // Really want to put a header icon.
-                  const CirclePersonIconBox(size: 48),
-                  const Padding(padding: EdgeInsets.only(left: 8.0)),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(person.name, style: theme.textTheme.headlineSmall),
-                      Row(
+                      // Really want to put a header icon.
+                      const CirclePersonIconBox(size: 48),
+                      const Padding(padding: EdgeInsets.only(left: 8.0)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ...?person.tags?.map((e) => Card(child: Text(e)))
+                          Text(person.name,
+                              style: theme.textTheme.headlineSmall),
+                          Row(
+                            children: [
+                              ...?person.tags?.map((e) => Card(child: Text(e)))
+                            ],
+                          ),
                         ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                const Spacer(),
+                InkWell(
+                  onTap: () => bottomSheet(
+                    context,
+                    onDelete: () => ref
+                        .read(personProvider)
+                        .removePerson(person.id)
+                        .then((value) => context.go('/')),
+                    onEdit: () => context.go('/detail/edit?id=${person.id}'),
+                  ),
+                  customBorder: const CircleBorder(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.more_vert,
+                      size: 20,
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -69,7 +165,7 @@ class TopPage extends HookConsumerWidget {
                     data.map(personCard).toList()[index],
               ),
             ),
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stackTrace) => Container(
               child: Text(error.toString()),
             ),

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'person.dart';
+part of 'event.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,18 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Person _$PersonFromJson(Map<String, dynamic> json) {
-  return _Person.fromJson(json);
+Event _$EventFromJson(Map<String, dynamic> json) {
+  return _Event.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Person {
+mixin _$Event {
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  int? get age => throw _privateConstructorUsedError;
-  DateTime? get birthday => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
-  String get memo => throw _privateConstructorUsedError;
+  DateTime get dateTime => throw _privateConstructorUsedError;
+  String get text => throw _privateConstructorUsedError;
+  List<String>? get personIdList => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
   @UpdatedConverter()
   DateTime? get updated => throw _privateConstructorUsedError;
@@ -34,30 +32,28 @@ mixin _$Person {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PersonCopyWith<Person> get copyWith => throw _privateConstructorUsedError;
+  $EventCopyWith<Event> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PersonCopyWith<$Res> {
-  factory $PersonCopyWith(Person value, $Res Function(Person) then) =
-      _$PersonCopyWithImpl<$Res, Person>;
+abstract class $EventCopyWith<$Res> {
+  factory $EventCopyWith(Event value, $Res Function(Event) then) =
+      _$EventCopyWithImpl<$Res, Event>;
   @useResult
   $Res call(
       {String id,
-      String name,
-      int? age,
-      DateTime? birthday,
-      String? email,
-      String memo,
+      DateTime dateTime,
+      String text,
+      List<String>? personIdList,
       List<String>? tags,
       @UpdatedConverter() DateTime? updated,
       @CreatedConverter() DateTime? created});
 }
 
 /// @nodoc
-class _$PersonCopyWithImpl<$Res, $Val extends Person>
-    implements $PersonCopyWith<$Res> {
-  _$PersonCopyWithImpl(this._value, this._then);
+class _$EventCopyWithImpl<$Res, $Val extends Event>
+    implements $EventCopyWith<$Res> {
+  _$EventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -68,11 +64,9 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
-    Object? age = freezed,
-    Object? birthday = freezed,
-    Object? email = freezed,
-    Object? memo = null,
+    Object? dateTime = null,
+    Object? text = null,
+    Object? personIdList = freezed,
     Object? tags = freezed,
     Object? updated = freezed,
     Object? created = freezed,
@@ -82,26 +76,18 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      dateTime: null == dateTime
+          ? _value.dateTime
+          : dateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
               as String,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
-      birthday: freezed == birthday
-          ? _value.birthday
-          : birthday // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      memo: null == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String,
+      personIdList: freezed == personIdList
+          ? _value.personIdList
+          : personIdList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       tags: freezed == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -119,68 +105,55 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
 }
 
 /// @nodoc
-abstract class _$$_PersonCopyWith<$Res> implements $PersonCopyWith<$Res> {
-  factory _$$_PersonCopyWith(_$_Person value, $Res Function(_$_Person) then) =
-      __$$_PersonCopyWithImpl<$Res>;
+abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
+  factory _$$_EventCopyWith(_$_Event value, $Res Function(_$_Event) then) =
+      __$$_EventCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
-      String name,
-      int? age,
-      DateTime? birthday,
-      String? email,
-      String memo,
+      DateTime dateTime,
+      String text,
+      List<String>? personIdList,
       List<String>? tags,
       @UpdatedConverter() DateTime? updated,
       @CreatedConverter() DateTime? created});
 }
 
 /// @nodoc
-class __$$_PersonCopyWithImpl<$Res>
-    extends _$PersonCopyWithImpl<$Res, _$_Person>
-    implements _$$_PersonCopyWith<$Res> {
-  __$$_PersonCopyWithImpl(_$_Person _value, $Res Function(_$_Person) _then)
+class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
+    implements _$$_EventCopyWith<$Res> {
+  __$$_EventCopyWithImpl(_$_Event _value, $Res Function(_$_Event) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
-    Object? age = freezed,
-    Object? birthday = freezed,
-    Object? email = freezed,
-    Object? memo = null,
+    Object? dateTime = null,
+    Object? text = null,
+    Object? personIdList = freezed,
     Object? tags = freezed,
     Object? updated = freezed,
     Object? created = freezed,
   }) {
-    return _then(_$_Person(
+    return _then(_$_Event(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      dateTime: null == dateTime
+          ? _value.dateTime
+          : dateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
               as String,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
-      birthday: freezed == birthday
-          ? _value.birthday
-          : birthday // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      memo: null == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String,
+      personIdList: freezed == personIdList
+          ? _value._personIdList
+          : personIdList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       tags: freezed == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -199,34 +172,37 @@ class __$$_PersonCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Person with DiagnosticableTreeMixin implements _Person {
-  const _$_Person(
+class _$_Event with DiagnosticableTreeMixin implements _Event {
+  const _$_Event(
       {required this.id,
-      required this.name,
-      this.age,
-      this.birthday,
-      this.email,
-      required this.memo,
+      required this.dateTime,
+      required this.text,
+      final List<String>? personIdList,
       final List<String>? tags,
       @UpdatedConverter() this.updated,
       @CreatedConverter() this.created})
-      : _tags = tags;
+      : _personIdList = personIdList,
+        _tags = tags;
 
-  factory _$_Person.fromJson(Map<String, dynamic> json) =>
-      _$$_PersonFromJson(json);
+  factory _$_Event.fromJson(Map<String, dynamic> json) =>
+      _$$_EventFromJson(json);
 
   @override
   final String id;
   @override
-  final String name;
+  final DateTime dateTime;
   @override
-  final int? age;
+  final String text;
+  final List<String>? _personIdList;
   @override
-  final DateTime? birthday;
-  @override
-  final String? email;
-  @override
-  final String memo;
+  List<String>? get personIdList {
+    final value = _personIdList;
+    if (value == null) return null;
+    if (_personIdList is EqualUnmodifiableListView) return _personIdList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<String>? _tags;
   @override
   List<String>? get tags {
@@ -246,20 +222,18 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Person(id: $id, name: $name, age: $age, birthday: $birthday, email: $email, memo: $memo, tags: $tags, updated: $updated, created: $created)';
+    return 'Event(id: $id, dateTime: $dateTime, text: $text, personIdList: $personIdList, tags: $tags, updated: $updated, created: $created)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'Person'))
+      ..add(DiagnosticsProperty('type', 'Event'))
       ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('age', age))
-      ..add(DiagnosticsProperty('birthday', birthday))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('memo', memo))
+      ..add(DiagnosticsProperty('dateTime', dateTime))
+      ..add(DiagnosticsProperty('text', text))
+      ..add(DiagnosticsProperty('personIdList', personIdList))
       ..add(DiagnosticsProperty('tags', tags))
       ..add(DiagnosticsProperty('updated', updated))
       ..add(DiagnosticsProperty('created', created));
@@ -269,14 +243,13 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Person &&
+            other is _$_Event &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.age, age) || other.age == age) &&
-            (identical(other.birthday, birthday) ||
-                other.birthday == birthday) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.memo, memo) || other.memo == memo) &&
+            (identical(other.dateTime, dateTime) ||
+                other.dateTime == dateTime) &&
+            (identical(other.text, text) || other.text == text) &&
+            const DeepCollectionEquality()
+                .equals(other._personIdList, _personIdList) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.updated, updated) || other.updated == updated) &&
             (identical(other.created, created) || other.created == created));
@@ -284,49 +257,50 @@ class _$_Person with DiagnosticableTreeMixin implements _Person {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, age, birthday, email,
-      memo, const DeepCollectionEquality().hash(_tags), updated, created);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      dateTime,
+      text,
+      const DeepCollectionEquality().hash(_personIdList),
+      const DeepCollectionEquality().hash(_tags),
+      updated,
+      created);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PersonCopyWith<_$_Person> get copyWith =>
-      __$$_PersonCopyWithImpl<_$_Person>(this, _$identity);
+  _$$_EventCopyWith<_$_Event> get copyWith =>
+      __$$_EventCopyWithImpl<_$_Event>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PersonToJson(
+    return _$$_EventToJson(
       this,
     );
   }
 }
 
-abstract class _Person implements Person {
-  const factory _Person(
+abstract class _Event implements Event {
+  const factory _Event(
       {required final String id,
-      required final String name,
-      final int? age,
-      final DateTime? birthday,
-      final String? email,
-      required final String memo,
+      required final DateTime dateTime,
+      required final String text,
+      final List<String>? personIdList,
       final List<String>? tags,
       @UpdatedConverter() final DateTime? updated,
-      @CreatedConverter() final DateTime? created}) = _$_Person;
+      @CreatedConverter() final DateTime? created}) = _$_Event;
 
-  factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
+  factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
 
   @override
   String get id;
   @override
-  String get name;
+  DateTime get dateTime;
   @override
-  int? get age;
+  String get text;
   @override
-  DateTime? get birthday;
-  @override
-  String? get email;
-  @override
-  String get memo;
+  List<String>? get personIdList;
   @override
   List<String>? get tags;
   @override
@@ -337,6 +311,6 @@ abstract class _Person implements Person {
   DateTime? get created;
   @override
   @JsonKey(ignore: true)
-  _$$_PersonCopyWith<_$_Person> get copyWith =>
+  _$$_EventCopyWith<_$_Event> get copyWith =>
       throw _privateConstructorUsedError;
 }

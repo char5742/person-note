@@ -1,6 +1,6 @@
 {
-    "name": "person_memo",
-    "short_name": "person_memo",
+    "name": "person_note",
+    "short_name": "person_note",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:person_note/util/converter.dart';
 
 part 'person.freezed.dart';
 part 'person.g.dart';
@@ -14,8 +16,8 @@ class Person with _$Person {
     String? email,
     required String memo,
     List<String>? tags,
-    required DateTime updated,
-    required DateTime created,
+    @UpdatedConverter() DateTime? updated,
+    @CreatedConverter() DateTime? created,
   }) = _Person;
 
   factory Person.fromJson(Map<String, Object?> json) => _$PersonFromJson(json);

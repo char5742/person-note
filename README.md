@@ -1,16 +1,30 @@
-# person_note
+# PersonNote
+ 
+PersonNote is an app to note people who have helped you, which allows you to store a person's name, email address, age, birthday, and other information and to access the same data from any device by firebase.
+ 
+# DEMO
+ 
+Login Page | Top Page
+--- | ---
+![Login Page](screen_shots/login_page.png) | ![Top Page](screen_shots/top_page.png)
+Detail Page | Crate Page
+--- | ---
+![Detail Page](screen_shots/detail_page.png) | ![Create Page](screen_shots/create_page.png)
 
-An app to note people who have helped you.
 
-## Getting Started
+ 
+# Usage
+ 
+```bash
+git clone https://github.com/char5742/person-note
+cd person_note
+flutter pub get
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter run
+```
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ 
+# License
+ 
+"PersonNote" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+ 

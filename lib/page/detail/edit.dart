@@ -3,26 +3,33 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:person_note/model/person/person.dart';
 import 'package:person_note/provider/person.dart';
 import 'package:person_note/util/date_format.dart';
 import 'package:person_note/util/validator.dart';
 
-import 'component.dart';
+import '../component.dart';
 
-class CreatePage extends HookConsumerWidget {
-  const CreatePage({super.key});
+class EditPage extends HookConsumerWidget {
+  final String personId;
+  const EditPage({required this.personId, super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isProcessing = useState(false);
+    if (!ref.watch(personByIdProvider(personId)).hasValue) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final person = ref.watch(personByIdProvider(personId)).value!;
+
     final formKey = useMemoized(GlobalKey<FormState>.new, const []);
     final theme = Theme.of(context);
-    final nameConteroller = useTextEditingController();
-    final ageConteroller = useTextEditingController();
-    final emailConteroller = useTextEditingController();
-    final memoConteroller = useTextEditingController();
-    final birthday = useState<DateTime?>(null);
-    final tags = useState(<String>[]);
+    final nameConteroller = useTextEditingController(text: person.name);
+    final ageConteroller =
+        useTextEditingController(text: (person.age ?? '').toString());
+    final emailConteroller = useTextEditingController(text: person.email);
+    final memoConteroller = useTextEditingController(text: person.memo);
+    final birthday = useState<DateTime?>(person.birthday);
+    final tags = useState(<String>[...?person.tags]);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -32,8 +39,7 @@ class CreatePage extends HookConsumerWidget {
                 : () async {
                     if (formKey.currentState!.validate()) {
                       isProcessing.value = true;
-                      final person = Person(
-                        id: "",
+                      final editedPerson = person.copyWith(
                         name: nameConteroller.text,
                         age: int.tryParse(ageConteroller.text),
                         email: emailConteroller.text,
@@ -43,12 +49,12 @@ class CreatePage extends HookConsumerWidget {
                       );
                       await ref
                           .read(personProvider)
-                          .addPerson(person)
-                          .then((value) => context.go('/'));
+                          .editPerson(editedPerson)
+                          .then((value) => context.pop());
                     }
                   },
             child: const Text(
-              'Add Person',
+              'Save',
             ),
           ),
         ],
