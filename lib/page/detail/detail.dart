@@ -66,7 +66,8 @@ class DetailPage extends HookConsumerWidget {
 class EventList extends HookConsumerWidget {
   final String personId;
   const EventList({required this.personId, super.key});
-  Future<void> bottomSheet(context) async {
+  Future<void> bottomSheet(context,
+      {Function()? onDelete, Function()? onEdit}) async {
     await showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -77,6 +78,7 @@ class EventList extends HookConsumerWidget {
             children: [
               TextButton(
                 onPressed: () {
+                  context.pop();
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -85,9 +87,13 @@ class EventList extends HookConsumerWidget {
                               'Are you sure you want to delete this item?'),
                           actions: [
                             TextButton(
-                                onPressed: () {}, child: const Text('Cancel')),
+                              onPressed: () => context.pop(),
+                              child: const Text('Cancel'),
+                            ),
                             TextButton(
-                                onPressed: () {}, child: const Text('Delete')),
+                              onPressed: onDelete,
+                              child: const Text('Delete'),
+                            ),
                           ],
                         );
                       });
@@ -106,7 +112,10 @@ class EventList extends HookConsumerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                  onEdit?.call();
+                },
                 child: Row(
                   children: const [
                     Icon(Icons.edit, size: 28),
@@ -164,26 +173,25 @@ class EventList extends HookConsumerWidget {
                             ...?event.personIdList?.map(
                               (personId) => HookConsumer(
                                 builder: (context, ref, child) {
-                                  if (ref
-                                      .watch(personByIdProvider(personId))
-                                      .isLoading) {
-                                    return const CircularProgressIndicator();
-                                  }
-                                  final person = ref
-                                      .watch(personByIdProvider(personId))
-                                      .value!;
-                                  return Card(
-                                    child: Row(
-                                      children: [
-                                        const CirclePersonIconBox(
-                                          size: 16,
-                                        ),
-                                        const Padding(
-                                            padding:
-                                                EdgeInsets.only(left: 4.0)),
-                                        Text(person.name),
-                                      ],
+                                  final person =
+                                      ref.watch(personByIdProvider(personId));
+                                  return person.map(
+                                    data: (data) => Card(
+                                      child: Row(
+                                        children: [
+                                          const CirclePersonIconBox(
+                                            size: 16,
+                                          ),
+                                          const Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 4.0)),
+                                          Text(data.value.name),
+                                        ],
+                                      ),
                                     ),
+                                    error: (_) => Container(),
+                                    loading: (_) =>
+                                        const CircularProgressIndicator(),
                                   );
                                 },
                               ),
@@ -195,7 +203,15 @@ class EventList extends HookConsumerWidget {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () => bottomSheet(context),
+                    onTap: () => bottomSheet(
+                      context,
+                      onDelete: () => ref
+                          .read(eventProvider)
+                          .removeEvent(event.id)
+                          .then((value) => context.pop()),
+                      onEdit: () => context
+                          .push('/detail/edit_event?event_id=${event.id}'),
+                    ),
                     customBorder: const CircleBorder(),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

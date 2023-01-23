@@ -10,7 +10,8 @@ import 'component.dart';
 
 class TopPage extends HookConsumerWidget {
   const TopPage({super.key});
-  Future<void> bottomSheet(context) async {
+  Future<void> bottomSheet(context,
+      {Function()? onDelete, Function()? onEdit}) async {
     await showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -21,6 +22,7 @@ class TopPage extends HookConsumerWidget {
             children: [
               TextButton(
                 onPressed: () {
+                  context.pop();
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -29,9 +31,13 @@ class TopPage extends HookConsumerWidget {
                               'Are you sure you want to delete this item?'),
                           actions: [
                             TextButton(
-                                onPressed: () {}, child: const Text('Cancel')),
+                              onPressed: () => context.pop(),
+                              child: const Text('Cancel'),
+                            ),
                             TextButton(
-                                onPressed: () {}, child: const Text('Delete')),
+                              onPressed: onDelete,
+                              child: const Text('Delete'),
+                            ),
                           ],
                         );
                       });
@@ -50,7 +56,10 @@ class TopPage extends HookConsumerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                  onEdit?.call();
+                },
                 child: Row(
                   children: const [
                     Icon(Icons.edit, size: 28),
@@ -112,7 +121,14 @@ class TopPage extends HookConsumerWidget {
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: () => bottomSheet(context),
+                  onTap: () => bottomSheet(
+                    context,
+                    onDelete: () => ref
+                        .read(personProvider)
+                        .removePerson(person.id)
+                        .then((value) => context.go('/')),
+                    onEdit: () => context.go('/detail/edit?id=${person.id}'),
+                  ),
                   customBorder: const CircleBorder(),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
