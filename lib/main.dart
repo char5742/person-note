@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'util/native.dart' if (dart.library.html) 'util/web.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +12,7 @@ import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Intl.defaultLocale = Platform.localeName;
+  Intl.defaultLocale = getCurrentLocale();
   await initializeDateFormatting();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
