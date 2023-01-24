@@ -217,8 +217,8 @@ class EventList extends HookConsumerWidget {
                               .read(eventProvider)
                               .removeEvent(event.id)
                               .then((value) => context.pop()),
-                          onEdit: () => context
-                              .push('/detail/edit_event?event_id=${event.id}'),
+                          onEdit: () => context.go(
+                              '/detail/edit_event?id=${event.personIdList?.first}&event_id=${event.id}'),
                         ),
                         customBorder: const CircleBorder(),
                         child: Padding(
