@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:person_note/app.dart';
 import 'package:person_note/provider/auth.dart';
 import 'package:person_note/provider/event.dart';
@@ -39,7 +38,7 @@ void main() {
     await tester.pumpAndSettle();
     await binding.takeScreenshot('top_page');
 
-    await tester.tap(find.text('friend2'));
+    await tester.tap(find.text('Matthew'));
     await tester.pumpAndSettle();
     await binding.takeScreenshot('detail_page');
 

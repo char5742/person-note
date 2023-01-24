@@ -40,7 +40,7 @@ final initData = <String, Event>{
     text: 'A day when I went to see the fall foliage with my friend.',
     created: DateTime.now(),
     updated: DateTime.now(),
-    personIdList: ['0', '1', '2'],
+    personIdList: ['0', '1', '2', '3', '4', '5'],
   ),
   '5': Event(
     id: '5',

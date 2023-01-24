@@ -6,7 +6,7 @@ import 'package:person_note/usecase/person.dart';
 final initData = <String, Person>{
   '0': Person(
     id: '0',
-    name: 'friend0',
+    name: 'Michael',
     memo: '',
     created: DateTime.now(),
     updated: DateTime.now(),
@@ -14,7 +14,7 @@ final initData = <String, Person>{
   ),
   '1': Person(
     id: '1',
-    name: 'friend1',
+    name: 'Jessica',
     memo: '',
     created: DateTime.now(),
     updated: DateTime.now(),
@@ -22,7 +22,7 @@ final initData = <String, Person>{
   ),
   '2': Person(
     id: '2',
-    name: 'friend2',
+    name: 'Matthew',
     age: 16,
     birthday: DateTime(2023, 5, 20),
     email: 'friend2@example.com',
@@ -34,7 +34,7 @@ final initData = <String, Person>{
   ),
   '3': Person(
     id: '3',
-    name: 'friend3',
+    name: 'Amanda',
     memo: '',
     created: DateTime.now(),
     updated: DateTime.now(),
@@ -42,7 +42,7 @@ final initData = <String, Person>{
   ),
   '4': Person(
     id: '4',
-    name: 'friend4',
+    name: 'My friend with a long name is a great person to be around',
     memo: '',
     created: DateTime.now(),
     updated: DateTime.now(),
@@ -50,7 +50,7 @@ final initData = <String, Person>{
   ),
   '5': Person(
     id: '5',
-    name: 'friend5',
+    name: 'Christopher',
     memo: '',
     created: DateTime.now(),
     updated: DateTime.now(),
