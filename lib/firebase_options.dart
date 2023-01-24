@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
     appId: '1:490930282376:web:7f269cb60b8ad0d6a8e43d',
     messagingSenderId: '490930282376',
     projectId: 'person-note-d625a',
-    authDomain: 'person-note-d625a.firebaseapp.com',
+    authDomain: 'person-note.starrycode.dev',
     databaseURL: 'https://person-note-d625a-default-rtdb.firebaseio.com',
     storageBucket: 'person-note-d625a.appspot.com',
     measurementId: 'G-MPDLB94TFQ',
