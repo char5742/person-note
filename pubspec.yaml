@@ -29,6 +29,8 @@ dependencies:
   dropdown_button2: ^1.9.2
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
@@ -56,4 +58,5 @@ flutter_icons:
 
 scripts:
   build: flutter pub run build_runner build --delete-conflicting-outputs
+  screenshot_test: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/screenshot_test.dart -d sdk gphone64 x86 64
   gen_icon: flutter pub run flutter_launcher_icons
