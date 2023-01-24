@@ -14,7 +14,7 @@ String formatDateTime(DateTime? datetime, {String delimiter = '-'}) {
     return '0000${delimiter}00${delimiter}00 ( )';
   }
   DateFormat outputFormat =
-      DateFormat('yyyy${delimiter}MM${delimiter}dd (EEE)', 'ja_JP');
+      DateFormat('yyyy${delimiter}MM${delimiter}dd (EEE)');
   String date = outputFormat.format(datetime);
   return date;
 }

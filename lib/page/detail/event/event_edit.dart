@@ -147,12 +147,11 @@ class EventEditPage extends HookConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Form(
           key: formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 24,
-                width: double.infinity,
-                child: Wrap(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text('Person', style: theme.textTheme.bodyLarge),
@@ -162,9 +161,13 @@ class EventEditPage extends HookConsumerWidget {
                             horizontal: 8.0,
                             vertical: 4.0,
                           ),
-                          child: Text(
-                            e.name,
-                            style: theme.textTheme.bodyLarge,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 150),
+                            child: Text(
+                              e.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyLarge,
+                            ),
                           ),
                         ))),
                     IconButton(
@@ -190,34 +193,31 @@ class EventEditPage extends HookConsumerWidget {
                     ),
                   ],
                 ),
-              ),
-              Row(
-                children: [
-                  Text(
-                    formatDateTime(dateTime.value),
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final newDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate:
-                            DateTime.now().subtract(const Duration(days: 30)),
-                        lastDate: DateTime.now(),
-                      );
-                      if (newDate != null) {
-                        dateTime.value = newDate;
-                      }
-                    },
-                    icon: const Icon(Icons.date_range),
-                  ),
-                ],
-              ),
-              const Divider(),
-              Expanded(
-                child: TextFormField(
-                  expands: true,
+                Row(
+                  children: [
+                    Text(
+                      formatDateTime(dateTime.value),
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        final newDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate:
+                              DateTime.now().subtract(const Duration(days: 30)),
+                          lastDate: DateTime.now(),
+                        );
+                        if (newDate != null) {
+                          dateTime.value = newDate;
+                        }
+                      },
+                      icon: const Icon(Icons.date_range),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                TextFormField(
                   maxLines: null,
                   controller: textConteroller,
                   autofocus: true,
@@ -227,59 +227,9 @@ class EventEditPage extends HookConsumerWidget {
                     border: InputBorder.none,
                   ),
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text('Tags', style: theme.textTheme.labelLarge),
-                    ...tags.value.map((e) => Card(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                            vertical: 4.0,
-                          ),
-                          child: Text(
-                            e,
-                            style: theme.textTheme.bodyLarge,
-                          ),
-                        ))),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            final controller = TextEditingController();
-                            return SimpleDialog(
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 8.0,
-                              ),
-                              children: [
-                                TextFormField(controller: controller),
-                                IconButton(
-                                  onPressed: () {
-                                    tags.value = [
-                                      ...tags.value,
-                                      controller.text
-                                    ];
-                                    context.pop();
-                                  },
-                                  icon: const Icon(Icons.add),
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(Icons.add),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                const Padding(padding: EdgeInsets.only(bottom: 300)),
+              ],
+            ),
           ),
         ),
       ),
