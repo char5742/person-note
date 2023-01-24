@@ -147,6 +147,7 @@ class EventCreatePage extends HookConsumerWidget {
           key: formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
