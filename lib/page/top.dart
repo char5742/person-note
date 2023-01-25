@@ -134,7 +134,7 @@ class TopPage extends HookConsumerWidget {
                     onDelete: () => ref
                         .read(personProvider)
                         .removePerson(person.id)
-                        .then((value) => context.go('/')),
+                        .then((value) => context.pop()),
                     onEdit: () => context.go('/detail/edit?id=${person.id}'),
                   ),
                   customBorder: const CircleBorder(),
