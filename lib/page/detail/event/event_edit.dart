@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -55,9 +56,7 @@ class EventEditPage extends HookConsumerWidget {
                           .then((value) => context.pop());
                     }
                   },
-            child: const Text(
-              'Edit Event',
-            ),
+            child: Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),

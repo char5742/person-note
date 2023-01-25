@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +7,6 @@ import 'package:person_note/model/event/event.dart';
 import 'package:person_note/model/person/person.dart';
 import 'package:person_note/provider/event.dart';
 import 'package:person_note/provider/person.dart';
-import 'package:person_note/util/date_format.dart';
-import 'package:person_note/util/validator.dart';
 
 import 'conmponent.dart';
 
@@ -55,9 +54,7 @@ class EventCreatePage extends HookConsumerWidget {
                           .then((value) => context.pop());
                     }
                   },
-            child: const Text(
-              'Add Event',
-            ),
+            child: Text(AppLocalizations.of(context)!.addEvent),
           ),
         ],
       ),

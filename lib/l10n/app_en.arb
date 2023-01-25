@@ -1,0 +1,28 @@
+{
+    "name": "Name",
+    "age": "Age",
+    "email": "E-mail",
+    "memo": "Memo",
+    "tags": "Tags",
+    "yearsOld":"{age} y.o.",
+    "@yearsOld": {
+        "placeholders": {
+          "age": {
+            "type": "int",
+            "example": "20"
+          }
+        }
+    },
+    "person": "Person",
+    "birthday": "Birthday",
+    "addNote": "Add Note",
+    "editNote": "Edit Note",
+    "deleteNote": "Delete Note",
+    "addEvent": "Add Event",
+    "editEvent": "Edit Event",
+    "deleteEvent": "Delete Event",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteCheck": "Are you sure you want to delete this item?"
+}

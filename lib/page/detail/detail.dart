@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,14 +43,14 @@ class DetailPage extends HookConsumerWidget {
                       ElevatedButton(
                           onPressed: () =>
                               context.go('/detail/edit?id=$personId'),
-                          child: const Text('Edit Note'))
+                          child: Text(AppLocalizations.of(context)!.editNote))
                     ],
                   ),
                   Text(person.email ?? '', style: theme.textTheme.bodyMedium),
                   const Padding(padding: EdgeInsets.only(top: 8.0)),
                   Text(person.memo, style: theme.textTheme.bodyLarge),
                   Text(
-                      '${person.age != null ? "${person.age}歳" : ""}  ${person.birthday != null ? "誕生日: ${person.birthday?.month}月${person.birthday?.day}日" : ""}',
+                      '${person.age != null ? AppLocalizations.of(context)!.yearsOld(person.age!) : ""}  ${person.birthday != null ? "${AppLocalizations.of(context)!.birthday} ${formatDate(person.birthday)}" : ""}',
                       style: theme.textTheme.bodyLarge),
                   const Divider(),
                 ],
@@ -80,31 +81,31 @@ class EventList extends HookConsumerWidget {
                 onPressed: () {
                   context.pop();
                   showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text(
-                              'Are you sure you want to delete this item?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => context.pop(),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: onDelete,
-                              child: const Text('Delete'),
-                            ),
-                          ],
-                        );
-                      });
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(AppLocalizations.of(context)!.deleteCheck),
+                        actions: [
+                          TextButton(
+                            onPressed: () => context.pop(),
+                            child: Text(AppLocalizations.of(context)!.cancel),
+                          ),
+                          TextButton(
+                            onPressed: onDelete,
+                            child: Text(AppLocalizations.of(context)!.delete),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: Row(
-                  children: const [
-                    Icon(Icons.delete, size: 28),
-                    Padding(padding: EdgeInsets.only(left: 10)),
+                  children: [
+                    const Icon(Icons.delete, size: 28),
+                    const Padding(padding: EdgeInsets.only(left: 10)),
                     Text(
-                      'Delete Event',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.deleteEvent,
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),
@@ -117,12 +118,12 @@ class EventList extends HookConsumerWidget {
                   onEdit?.call();
                 },
                 child: Row(
-                  children: const [
-                    Icon(Icons.edit, size: 28),
-                    Padding(padding: EdgeInsets.only(left: 10)),
+                  children: [
+                    const Icon(Icons.edit, size: 28),
+                    const Padding(padding: EdgeInsets.only(left: 10)),
                     Text(
-                      'Edit Event',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.editEvent,
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),

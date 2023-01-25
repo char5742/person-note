@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:go_router/go_router.dart';
@@ -85,24 +86,30 @@ class PersonForm extends HookConsumerWidget {
               TextFormField(
                 controller: nameController,
                 validator: Validator.isNonNullString,
-                decoration: const InputDecoration(label: Text('Name')),
+                decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.name)),
               ),
               TextFormField(
                 controller: ageController,
                 validator: Validator.isNumber,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(label: Text('Age')),
+                decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.age)),
               ),
               TextFormField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(label: Text('E-mail')),
+                decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.email)),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Row(
                   children: [
-                    Text('Birthday', style: theme.textTheme.labelLarge),
+                    Text(
+                      AppLocalizations.of(context)!.birthday,
+                      style: theme.textTheme.labelLarge,
+                    ),
                     const Padding(padding: EdgeInsets.only(left: 16.0)),
                     Text(
                       formatDate(birthday.value),
@@ -125,7 +132,8 @@ class PersonForm extends HookConsumerWidget {
               TextFormField(
                 controller: memoController,
                 maxLines: null,
-                decoration: const InputDecoration(label: Text('Memo')),
+                decoration: InputDecoration(
+                    label: Text(AppLocalizations.of(context)!.memo)),
               ),
               Container(
                 width: double.infinity,
@@ -133,7 +141,8 @@ class PersonForm extends HookConsumerWidget {
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text('Tags', style: theme.textTheme.labelLarge),
+                    Text(AppLocalizations.of(context)!.tags,
+                        style: theme.textTheme.labelLarge),
                     ...tags.value.map((e) => Card(
                             child: Padding(
                           padding: const EdgeInsets.symmetric(
