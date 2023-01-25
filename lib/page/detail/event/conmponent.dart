@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -115,7 +116,10 @@ class EventForm extends HookConsumerWidget {
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Text('Person', style: theme.textTheme.bodyLarge),
+                  Text(
+                    AppLocalizations.of(context)!.person,
+                    style: theme.textTheme.bodyLarge,
+                  ),
                   ...personList.value.map((e) => Card(
                           child: Padding(
                         padding: const EdgeInsets.symmetric(

@@ -18,7 +18,6 @@ void main() {
 
   testWidgets('screenshot', (WidgetTester tester) async {
     // Render the UI of the app
-    await initializeDateFormatting();
     await AuthUsecaseTestImpl.instance.init();
     await tester.pumpWidget(ProviderScope(
       overrides: [

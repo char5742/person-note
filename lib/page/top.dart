@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,31 +25,31 @@ class TopPage extends HookConsumerWidget {
                 onPressed: () {
                   context.pop();
                   showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text(
-                              'Are you sure you want to delete this item?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => context.pop(),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: onDelete,
-                              child: const Text('Delete'),
-                            ),
-                          ],
-                        );
-                      });
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(AppLocalizations.of(context)!.deleteCheck),
+                        actions: [
+                          TextButton(
+                            onPressed: () => context.pop(),
+                            child: Text(AppLocalizations.of(context)!.cancel),
+                          ),
+                          TextButton(
+                            onPressed: onDelete,
+                            child: Text(AppLocalizations.of(context)!.delete),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: Row(
-                  children: const [
-                    Icon(Icons.delete, size: 28),
-                    Padding(padding: EdgeInsets.only(left: 10)),
+                  children: [
+                    const Icon(Icons.delete, size: 28),
+                    const Padding(padding: EdgeInsets.only(left: 10)),
                     Text(
-                      'Delete Note',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.deleteNote,
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),
@@ -61,12 +62,12 @@ class TopPage extends HookConsumerWidget {
                   onEdit?.call();
                 },
                 child: Row(
-                  children: const [
-                    Icon(Icons.edit, size: 28),
-                    Padding(padding: EdgeInsets.only(left: 10)),
+                  children: [
+                    const Icon(Icons.edit, size: 28),
+                    const Padding(padding: EdgeInsets.only(left: 10)),
                     Text(
-                      'Edit Note',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.editNote,
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),

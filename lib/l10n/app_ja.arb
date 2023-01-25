@@ -1,0 +1,28 @@
+{
+    "name": "名前",
+    "age": "年齢",
+    "email": "メールアドレス",
+    "memo": "メモ",
+    "tags": "タグ",
+    "yearsOld":"{age}歳",
+    "@yearsOld": {
+        "placeholders": {
+          "age": {
+            "type": "int",
+            "example": "20"
+          }
+        }
+    },
+    "person": "Person",
+    "birthday": "誕生日",
+    "addNote": "ノート追加",
+    "editNote": "ノート編集",
+    "deleteNote": "ノート削除",
+    "addEvent": "イベント追加",
+    "editEvent": "イベント編集",
+    "deleteEvent": "イベント削除",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "deleteCheck": "このアイテムを削除してよろしいですか？"
+}

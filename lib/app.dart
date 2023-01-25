@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/page/detail/event/event_edit.dart';
 import 'package:person_note/provider/account.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'const/color.dart';
 import 'page/create.dart';
@@ -84,6 +85,8 @@ class App extends HookConsumerWidget {
         ),
       ),
       routerConfig: ref.watch(_routerProvider),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
