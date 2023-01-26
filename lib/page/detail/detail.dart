@@ -21,21 +21,21 @@ class DetailPage extends HookConsumerWidget {
 
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(person.name),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go('/detail/create_event?id=$personId'),
         child: const Icon(Icons.add),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: Text(person.name),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -56,9 +56,9 @@ class DetailPage extends HookConsumerWidget {
                 ],
               ),
             ),
-            EventList(personId: personId),
-          ],
-        ),
+          ),
+          EventList(personId: personId),
+        ],
       ),
     );
   }
@@ -146,98 +146,101 @@ class EventList extends HookConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     return eventAsync.when(
-      error: (e, s) => Container(),
-      loading: () => const CircularProgressIndicator(),
-      data: (eventList) => Column(
-        children: [
-          ...eventList.map(
-            (event) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Card(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(formatDateTime(event.dateTime)),
-                              Text(
-                                event.text,
-                                style: textTheme.bodyLarge,
-                              ),
-                              Wrap(
-                                children: [
-                                  ...?event.personIdList?.map(
-                                    (personId) => HookConsumer(
-                                      builder: (context, ref, child) {
-                                        final person = ref.watch(
-                                            personByIdProvider(personId));
-                                        return person.map(
-                                          data: (data) => Card(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const CirclePersonIconBox(
-                                                  size: 16,
+      error: (e, s) =>
+          SliverList(delegate: SliverChildListDelegate([Container()])),
+      loading: () => SliverList(
+        delegate: SliverChildListDelegate([const CircularProgressIndicator()]),
+      ),
+      data: (eventList) => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          childCount: eventList.length,
+          (context, index) {
+            final event = eventList[index];
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Card(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(formatDateTime(event.dateTime)),
+                            Text(
+                              event.text,
+                              style: textTheme.bodyLarge,
+                            ),
+                            Wrap(
+                              children: [
+                                ...?event.personIdList?.map(
+                                  (personId) => HookConsumer(
+                                    builder: (context, ref, child) {
+                                      final person = ref
+                                          .watch(personByIdProvider(personId));
+                                      return person.map(
+                                        data: (data) => Card(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const CirclePersonIconBox(
+                                                size: 16,
+                                              ),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 4.0)),
+                                              Flexible(
+                                                child: Text(
+                                                  data.value.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
-                                                const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 4.0)),
-                                                Flexible(
-                                                  child: Text(
-                                                    data.value.name,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          error: (_) => Container(),
-                                          loading: (_) =>
-                                              const CircularProgressIndicator(),
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                        error: (_) => Container(),
+                                        loading: (_) =>
+                                            const CircularProgressIndicator(),
+                                      );
+                                    },
                                   ),
-                                ],
-                              )
-                            ],
-                          ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
-                      InkWell(
-                        onTap: () => bottomSheet(
-                          context,
-                          onDelete: () => ref
-                              .read(eventProvider)
-                              .removeEvent(event.id)
-                              .then((value) => context.pop()),
-                          onEdit: () => context.go(
-                              '/detail/edit_event?id=${event.personIdList?.first}&event_id=${event.id}'),
-                        ),
-                        customBorder: const CircleBorder(),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.more_vert,
-                            size: 20,
-                            color: colorScheme.outline,
-                          ),
+                    ),
+                    InkWell(
+                      onTap: () => bottomSheet(
+                        context,
+                        onDelete: () => ref
+                            .read(eventProvider)
+                            .removeEvent(event.id)
+                            .then((value) => context.pop()),
+                        onEdit: () => context.go(
+                            '/detail/edit_event?id=${event.personIdList?.first}&event_id=${event.id}'),
+                      ),
+                      customBorder: const CircleBorder(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.more_vert,
+                          size: 20,
+                          color: colorScheme.outline,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
