@@ -192,7 +192,7 @@ class EventForm extends HookConsumerWidget {
                   border: InputBorder.none,
                 ),
               ),
-              const Padding(padding: EdgeInsets.only(bottom: 300)),
+              const SizedBox(height: 300),
             ],
           ),
         ),
