@@ -46,7 +46,7 @@ class TopPage extends HookConsumerWidget {
                 child: Row(
                   children: [
                     const Icon(Icons.delete, size: 28),
-                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    const SizedBox(width: 10),
                     Text(
                       AppLocalizations.of(context)!.deleteNote,
                       style: const TextStyle(
@@ -64,7 +64,7 @@ class TopPage extends HookConsumerWidget {
                 child: Row(
                   children: [
                     const Icon(Icons.edit, size: 28),
-                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    const SizedBox(width: 10),
                     Text(
                       AppLocalizations.of(context)!.editNote,
                       style: const TextStyle(
@@ -104,7 +104,7 @@ class TopPage extends HookConsumerWidget {
                       children: [
                         // Really want to put a header icon.
                         const CirclePersonIconBox(size: 48),
-                        const Padding(padding: EdgeInsets.only(left: 8.0)),
+                        const SizedBox(width: 8.0),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

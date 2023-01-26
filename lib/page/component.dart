@@ -110,7 +110,7 @@ class PersonForm extends HookConsumerWidget {
                       AppLocalizations.of(context)!.birthday,
                       style: theme.textTheme.labelLarge,
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 16.0)),
+                    const SizedBox(width: 16.0),
                     Text(
                       formatDate(birthday.value),
                       style: theme.textTheme.bodyLarge,

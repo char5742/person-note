@@ -47,7 +47,7 @@ class DetailPage extends HookConsumerWidget {
                     ],
                   ),
                   Text(person.email ?? '', style: theme.textTheme.bodyMedium),
-                  const Padding(padding: EdgeInsets.only(top: 8.0)),
+                  const SizedBox(height: 8.0),
                   Text(person.memo, style: theme.textTheme.bodyLarge),
                   Text(
                       '${person.age != null ? AppLocalizations.of(context)!.yearsOld(person.age!) : ""}  ${person.birthday != null ? "${AppLocalizations.of(context)!.birthday} ${formatDate(person.birthday)}" : ""}',
@@ -102,7 +102,7 @@ class EventList extends HookConsumerWidget {
                 child: Row(
                   children: [
                     const Icon(Icons.delete, size: 28),
-                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    const SizedBox(width: 10),
                     Text(
                       AppLocalizations.of(context)!.deleteEvent,
                       style: const TextStyle(
@@ -120,7 +120,7 @@ class EventList extends HookConsumerWidget {
                 child: Row(
                   children: [
                     const Icon(Icons.edit, size: 28),
-                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    const SizedBox(width: 10),
                     Text(
                       AppLocalizations.of(context)!.editEvent,
                       style: const TextStyle(
@@ -189,9 +189,7 @@ class EventList extends HookConsumerWidget {
                                               const CirclePersonIconBox(
                                                 size: 16,
                                               ),
-                                              const Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.0)),
+                                              const SizedBox(width: 4.0),
                                               Flexible(
                                                 child: Text(
                                                   data.value.name,
