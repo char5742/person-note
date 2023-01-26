@@ -1,30 +1,38 @@
-# PersonNote
- 
-PersonNote is an app to note people who have helped you, which allows you to store a person's name, email address, age, birthday, event, and other information and to access the same data from any device by firebase.
- 
-# DEMO
-If you would like to check how the application works, I have made it available as a web application  [here](https://person-note.starrycode.dev/).
-Login Page | Top Page
---- | ---
-![Login Page](screen_shots/login_page.png) | ![Top Page](screen_shots/top_page.png)
-Detail Page | Crate Page
-![Detail Page](screen_shots/detail_page.png) | ![Create Page](screen_shots/create_page.png)
+# アプリの説明
 
+これは私が使いたいと思うメモアプリです。私は人のことを覚えるのが苦手なため、いつでも見返せるものがほしかったのです。もともとは名前と誕生日、ちょっとした補足を保存できればいいかなくらいの考えでしたが、作っていくうちに興が乗ったため、いつ誰と何をしたのかという「イベント」も保存できるようにしました。  
+データの保存にはFireStoreとAuthenticationを利用しています。そのためGoogleのアカウントがあればどの端末からでもアクセスできるようになっています。（もともとはRealtimeDBを使用していましたが、イベント機能追加にあたりクエリの強いFireStoreに変更しました。）
 
- 
-# Usage
- 
-This application uses Firestore Database. Therefore, you need to create your own project if you want to run it in your environment.
-```bash
-git clone https://github.com/char5742/person-note
-cd person_note
-flutter pub get
-flutter pub run build_runner build --delete-conflicting-outputs
-flutter run
+# 設計方針
+
+MVVM + UseCase   
+Page <-> Provider <-> UseCase 
+
+サンプルアーキテクチャを参考にしましたが、FireStore自体にキャッシュ機能などがあるため、Repositoryはなく、UseCaseで完結しています。
+
+# 工夫したところ
+
+githubの管理から、アプリの機能、バグのなさ、コードの可読性、アーキテクチャまで全てに全力であたりました。  
+それはそれとして、今回初めて挑戦した要素は以下になります。できるかぎりいろいろと挑戦してみました。
+- Firestore + Authentication  
+- UsecaseImpl
+- integration_test
+- README記載
+- Localization
+- GithubActions
+
+### 画面について
+ページのデザインはTwitterを参考にしました。DetailPageの構成もそうですし、縦の三点リーダーによる編集、削除や、削除選択時の確認ダイアログなどもです。
+
+# 動作環境
+```
+Flutter 3.7.0-1.5.pre • channel beta • https://github.com/flutter/flutter.git
+Framework • revision 099b3f4bf1 (6 days ago) • 2023-01-20 18:35:12 -0800
+Engine • revision 45c5586f2a
+Tools • Dart 2.19.0 (build 2.19.0-444.6.beta) • DevTools 2.20.1
 ```
 
- 
-# License
- 
-"PersonNote" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
- 
+動作確認は Xperia1Ⅱ Android11のみで行いました。
+
+# 感想
+これでgithubに公開しているFlutterアプリが２つになりました。夏休みに、就活に使うためにチャットアプリを作りましたがそこからまた更に成長できたかなと思います。
