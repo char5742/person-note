@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/util/date_format.dart';
-import 'package:person_note/util/validator.dart';
+import 'package:person_note/util/validator.dart' as validator;
 
 class CirclePersonIconBox extends StatelessWidget {
   final double? size;
@@ -85,13 +85,13 @@ class PersonForm extends HookConsumerWidget {
             children: [
               TextFormField(
                 controller: nameController,
-                validator: Validator.isNonNullString,
+                validator: validator.isNonNullString,
                 decoration: InputDecoration(
                     label: Text(AppLocalizations.of(context)!.name)),
               ),
               TextFormField(
                 controller: ageController,
-                validator: Validator.isNumber,
+                validator: validator.isNumber,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     label: Text(AppLocalizations.of(context)!.age)),

@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/model/person/person.dart';
 import 'package:person_note/provider/person.dart';
 import 'package:person_note/util/date_format.dart';
-import 'package:person_note/util/validator.dart';
+import 'package:person_note/util/validator.dart' as validator;
 
 Future<void> showGetPersonDialog(BuildContext context,
     List<Person> allPersonList, Function(Person) onPressed) async {
@@ -186,7 +186,7 @@ class EventForm extends HookConsumerWidget {
                 maxLines: null,
                 controller: textConteroller,
                 autofocus: true,
-                validator: Validator.isNonNullString,
+                validator: validator.isNonNullString,
                 style: theme.textTheme.bodyLarge?.copyWith(fontSize: 18),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
