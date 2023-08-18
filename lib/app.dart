@@ -18,10 +18,10 @@ final _routerProvider = Provider(
   (ref) => GoRouter(
     redirect: (context, state) async {
       if (ref.watch(accountProvider) == null) {
-        return state.subloc == '/login' ? null : '/login';
+        return state.path == '/login' ? null : '/login';
       }
       // Transition to the top page after the login process is complete.
-      if (state.subloc == '/login') {
+      if (state.path == '/login') {
         return '/';
       }
       return null;
@@ -42,22 +42,22 @@ final _routerProvider = Provider(
           GoRoute(
             path: 'detail',
             builder: (context, state) =>
-                DetailPage(personId: state.queryParams['id']!),
+                DetailPage(personId: state.pathParameters['id']!),
             routes: [
               GoRoute(
                 path: 'edit',
                 builder: (context, state) =>
-                    EditPage(personId: state.queryParams['id']!),
+                    EditPage(personId: state.pathParameters['id']!),
               ),
               GoRoute(
                 path: 'create_event',
                 builder: (context, state) =>
-                    EventCreatePage(personId: state.queryParams['id']!),
+                    EventCreatePage(personId: state.pathParameters['id']!),
               ),
               GoRoute(
                 path: 'edit_event',
                 builder: (context, state) =>
-                    EventEditPage(eventId: state.queryParams['event_id']!),
+                    EventEditPage(eventId: state.pathParameters['event_id']!),
               ),
             ],
           ),
