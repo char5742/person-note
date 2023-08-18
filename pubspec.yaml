@@ -1,17 +1,17 @@
 name: person_note
 description: An app to note people who have helped you.
-publish_to: 'none'
+publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
-  sdk: '>=2.19.0-444.1.beta <3.0.0'
+  sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-      sdk: flutter
+    sdk: flutter
   intl: any
   cupertino_icons: ^1.0.2
   freezed_annotation: ^2.2.0
@@ -49,10 +49,10 @@ flutter:
 
 flutter_gen:
   output: lib/gen/
-  line_length: 80 
+  line_length: 80
   integrations:
     flutter_svg: true
-  
+
 flutter_icons:
   android: "launcher_icon"
   image_path: "assets/img/app_icon.png"
