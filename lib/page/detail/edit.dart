@@ -8,8 +8,8 @@ import 'package:person_note/provider/person.dart';
 import '../component.dart';
 
 class EditPage extends HookConsumerWidget {
-  final String personId;
   const EditPage({required this.personId, super.key});
+  final String personId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

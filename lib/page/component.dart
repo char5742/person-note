@@ -7,8 +7,8 @@ import 'package:person_note/util/date_format.dart';
 import 'package:person_note/util/validator.dart' as validator;
 
 class CirclePersonIconBox extends StatelessWidget {
-  final double? size;
   const CirclePersonIconBox({super.key, this.size});
+  final double? size;
 
   @override
   Widget build(BuildContext context) {
@@ -18,34 +18,31 @@ class CirclePersonIconBox extends StatelessWidget {
       width: _size,
       height: _size,
       child: CircleAvatar(
-          child: ClipOval(
-        child: Stack(
-          children: [
-            Positioned(
-              left: -_size / 6,
-              child: Icon(
-                Icons.person,
-                size: _size * 4 / 3,
+        child: ClipOval(
+          child: Stack(
+            children: [
+              Positioned(
+                left: -_size / 6,
+                child: Icon(
+                  Icons.person,
+                  size: _size * 4 / 3,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
 
 class CustomMonthDayPicker extends DatePickerModel {
-  CustomMonthDayPicker(
-      {DateTime? currentTime,
-      DateTime? minTime,
-      DateTime? maxTime,
-      LocaleType? locale})
-      : super(
-            locale: locale,
-            minTime: minTime,
-            maxTime: maxTime,
-            currentTime: currentTime);
+  CustomMonthDayPicker({
+    super.currentTime,
+    super.minTime,
+    super.maxTime,
+    super.locale,
+  });
 
   @override
   List<int> layoutProportions() {
@@ -54,14 +51,6 @@ class CustomMonthDayPicker extends DatePickerModel {
 }
 
 class PersonForm extends HookConsumerWidget {
-  final Key formKey;
-  final TextEditingController nameController;
-  final TextEditingController ageController;
-  final TextEditingController emailController;
-  final TextEditingController memoController;
-  final ValueNotifier<DateTime?> birthday;
-  final ValueNotifier<List<String>> tags;
-
   const PersonForm({
     super.key,
     required this.formKey,
@@ -72,45 +61,59 @@ class PersonForm extends HookConsumerWidget {
     required this.birthday,
     required this.tags,
   });
+  final Key formKey;
+  final TextEditingController nameController;
+  final TextEditingController ageController;
+  final TextEditingController emailController;
+  final TextEditingController memoController;
+  final ValueNotifier<DateTime?> birthday;
+  final ValueNotifier<List<String>> tags;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(
         key: formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // name field
               TextFormField(
                 controller: nameController,
                 validator: validator.isNonNullString,
                 decoration: InputDecoration(
-                    label: Text(AppLocalizations.of(context)!.name)),
+                  label: Text(AppLocalizations.of(context)!.name),
+                ),
               ),
+              // age field
               TextFormField(
                 controller: ageController,
                 validator: validator.isNumber,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                    label: Text(AppLocalizations.of(context)!.age)),
+                  label: Text(AppLocalizations.of(context)!.age),
+                ),
               ),
+              // email field
               TextFormField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                    label: Text(AppLocalizations.of(context)!.email)),
+                  label: Text(AppLocalizations.of(context)!.email),
+                ),
               ),
+              // birthday field
               Padding(
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 16),
                 child: Row(
                   children: [
                     Text(
                       AppLocalizations.of(context)!.birthday,
                       style: theme.textTheme.labelLarge,
                     ),
-                    const SizedBox(width: 16.0),
+                    const SizedBox(width: 16),
                     Text(
                       formatDate(birthday.value),
                       style: theme.textTheme.bodyLarge,
@@ -129,41 +132,49 @@ class PersonForm extends HookConsumerWidget {
                   ],
                 ),
               ),
+              // memo field
               TextFormField(
                 controller: memoController,
                 maxLines: null,
                 decoration: InputDecoration(
-                    label: Text(AppLocalizations.of(context)!.memo)),
+                  label: Text(AppLocalizations.of(context)!.memo),
+                ),
               ),
+              // tags field
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 16),
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(AppLocalizations.of(context)!.tags,
-                        style: theme.textTheme.labelLarge),
-                    ...tags.value.map((e) => Card(
-                            child: Padding(
+                    Text(
+                      AppLocalizations.of(context)!.tags,
+                      style: theme.textTheme.labelLarge,
+                    ),
+                    ...tags.value.map(
+                      (e) => Card(
+                        child: Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                            vertical: 4.0,
+                            horizontal: 8,
+                            vertical: 4,
                           ),
                           child: Text(
                             e,
                             style: theme.textTheme.bodyLarge,
                           ),
-                        ))),
+                        ),
+                      ),
+                    ),
                     IconButton(
                       onPressed: () {
-                        showDialog(
+                        showDialog<void>(
                           context: context,
                           builder: (context) {
                             final controller = TextEditingController();
                             return SimpleDialog(
                               contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 8.0,
+                                horizontal: 16,
+                                vertical: 8,
                               ),
                               children: [
                                 TextFormField(controller: controller),
@@ -190,6 +201,85 @@ class PersonForm extends HookConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SelectActionDialog extends StatelessWidget {
+  const SelectActionDialog({
+    super.key,
+    this.onDelete,
+    this.onEdit,
+    required this.deleteButtonLabel,
+    required this.ediButtontLabel,
+  });
+  final void Function()? onDelete;
+  final void Function()? onEdit;
+  final String deleteButtonLabel;
+  final String ediButtontLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextButton(
+            onPressed: () {
+              context.pop();
+              showDialog<void>(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(AppLocalizations.of(context)!.deleteCheck),
+                    actions: [
+                      TextButton(
+                        onPressed: () => context.pop(),
+                        child: Text(AppLocalizations.of(context)!.cancel),
+                      ),
+                      TextButton(
+                        onPressed: onDelete,
+                        child: Text(AppLocalizations.of(context)!.delete),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Row(
+              children: [
+                const Icon(Icons.delete, size: 28),
+                const SizedBox(width: 10),
+                Text(
+                  deleteButtonLabel,
+                  style: const TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              context.pop();
+              onEdit?.call();
+            },
+            child: Row(
+              children: [
+                const Icon(Icons.edit, size: 28),
+                const SizedBox(width: 10),
+                Text(
+                  ediButtontLabel,
+                  style: const TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

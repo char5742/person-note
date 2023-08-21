@@ -10,8 +10,8 @@ import 'package:person_note/provider/person.dart';
 import 'conmponent.dart';
 
 class EventEditPage extends HookConsumerWidget {
-  final String eventId;
   const EventEditPage({required this.eventId, super.key});
+  final String eventId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

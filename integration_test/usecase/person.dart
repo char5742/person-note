@@ -26,8 +26,8 @@ final initData = <String, Person>{
     age: 16,
     birthday: DateTime(2023, 5, 20),
     email: 'friend2@example.com',
-    memo:
-        'Best friends since childhood and often play games together. And we currently attend the same school.',
+    memo: 'Best friends since childhood and often play games together.'
+        ' And we currently attend the same school.',
     created: DateTime.now(),
     updated: DateTime.now(),
     tags: ['best', 'game', 'schoolmate'],
@@ -63,9 +63,10 @@ class PersonUsecaseTestImpl implements PersonUsecase {
   final personMap = <String, Person>{...initData};
   @override
   Future<void> addPerson(Person person) async {
-    personMap.addEntries({
-      person.id: person.copyWith(id: (personMap.length + 1).toString())
-    }.entries);
+    personMap.addEntries(
+      {person.id: person.copyWith(id: (personMap.length + 1).toString())}
+          .entries,
+    );
   }
 
   @override

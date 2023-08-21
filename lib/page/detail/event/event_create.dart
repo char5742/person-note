@@ -11,8 +11,8 @@ import 'package:person_note/provider/person.dart';
 import 'conmponent.dart';
 
 class EventCreatePage extends HookConsumerWidget {
-  final String personId;
   const EventCreatePage({required this.personId, super.key});
+  final String personId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +41,7 @@ class EventCreatePage extends HookConsumerWidget {
                     if (formKey.currentState!.validate()) {
                       isProcessing.value = true;
                       final event = Event(
-                        id: "",
+                        id: '',
                         dateTime: dateTime.value,
                         text: textConteroller.text,
                         personIdList:

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:person_note/model/account/account.dart';
 
-abstract class AuthUsecase {
+abstract interface class AuthUsecase {
   Future<Account?> signInWithGoogle();
 
   /// Returns a future that Account if already signedIn.
@@ -18,8 +18,8 @@ abstract class AuthUsecase {
 }
 
 class AuthUsecaseImpl implements AuthUsecase {
-  AuthUsecaseImpl._internal();
   factory AuthUsecaseImpl() => instance;
+  AuthUsecaseImpl._internal();
   static final AuthUsecaseImpl instance = AuthUsecaseImpl._internal();
 
   @override
@@ -61,10 +61,9 @@ class AuthUsecaseImpl implements AuthUsecase {
   @override
   Future<Account?> signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final googleUser = await GoogleSignIn().signIn();
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final googleAuth = await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -94,8 +93,8 @@ class AuthUsecaseImpl implements AuthUsecase {
         final snapshot = await docRef.get();
         if (!snapshot.exists) {
           await docRef.set({
-            "displayName": user.displayName,
-            "createdAt": FieldValue.serverTimestamp(),
+            'displayName': user.displayName,
+            'createdAt': FieldValue.serverTimestamp(),
           });
         }
       }

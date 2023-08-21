@@ -15,7 +15,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AuthUsecaseImpl.instance.init();
-  runApp(const ProviderScope(
-    child: App(),
-  ));
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }

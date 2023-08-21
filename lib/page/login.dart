@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/const/color.dart';
 import 'package:person_note/gen/assets.gen.dart';
@@ -15,19 +16,24 @@ class LoginPage extends HookConsumerWidget {
       ref.read(authProvider).signInWithGoogle();
     }
 
-    useEffect(() {
-      signInWithGoogle();
-      return null;
-    }, []);
+    useEffect(
+      () {
+        signInWithGoogle();
+        return null;
+      },
+      [],
+    );
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Assets.img.appLogo.svg(color: seedColor),
+            Assets.img.appLogo.svg(
+              theme: const SvgTheme(currentColor: seedColor),
+            ),
             ElevatedButton(
               onPressed: signInWithGoogle,
-              child: const Text("Sign In"),
+              child: const Text('Sign In'),
             ),
           ],
         ),

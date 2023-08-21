@@ -9,8 +9,8 @@ import 'package:person_note/util/date_format.dart';
 import '../component.dart';
 
 class DetailPage extends HookConsumerWidget {
-  final String personId;
   const DetailPage({required this.personId, super.key});
+  final String personId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,8 +18,15 @@ class DetailPage extends HookConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     }
     final person = ref.watch(personByIdProvider(personId)).value!;
-
     final theme = Theme.of(context);
+
+    final personAgeText = person.age != null
+        ? AppLocalizations.of(context)!.yearsOld(person.age!)
+        : '';
+    final birthday = AppLocalizations.of(context)!.birthday;
+    final personBirthdayText = person.birthday != null
+        ? '$birthday ${formatDate(person.birthday)}'
+        : '';
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go('/detail/create_event?id=$personId'),
@@ -32,7 +39,7 @@ class DetailPage extends HookConsumerWidget {
             title: Text(person.name),
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -41,17 +48,19 @@ class DetailPage extends HookConsumerWidget {
                     children: [
                       const CirclePersonIconBox(),
                       ElevatedButton(
-                          onPressed: () =>
-                              context.go('/detail/edit?id=$personId'),
-                          child: Text(AppLocalizations.of(context)!.editNote))
+                        onPressed: () =>
+                            context.go('/detail/edit?id=$personId'),
+                        child: Text(AppLocalizations.of(context)!.editNote),
+                      )
                     ],
                   ),
                   Text(person.email ?? '', style: theme.textTheme.bodyMedium),
-                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 8),
                   Text(person.memo, style: theme.textTheme.bodyLarge),
                   Text(
-                      '${person.age != null ? AppLocalizations.of(context)!.yearsOld(person.age!) : ""}  ${person.birthday != null ? "${AppLocalizations.of(context)!.birthday} ${formatDate(person.birthday)}" : ""}',
-                      style: theme.textTheme.bodyLarge),
+                    '$personAgeText  $personBirthdayText',
+                    style: theme.textTheme.bodyLarge,
+                  ),
                   const Divider(),
                 ],
               ),
@@ -65,84 +74,18 @@ class DetailPage extends HookConsumerWidget {
 }
 
 class EventList extends HookConsumerWidget {
-  final String personId;
   const EventList({required this.personId, super.key});
-  Future<void> bottomSheet(context,
-      {Function()? onDelete, Function()? onEdit}) async {
-    await showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton(
-                onPressed: () {
-                  context.pop();
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text(AppLocalizations.of(context)!.deleteCheck),
-                        actions: [
-                          TextButton(
-                            onPressed: () => context.pop(),
-                            child: Text(AppLocalizations.of(context)!.cancel),
-                          ),
-                          TextButton(
-                            onPressed: onDelete,
-                            child: Text(AppLocalizations.of(context)!.delete),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Row(
-                  children: [
-                    const Icon(Icons.delete, size: 28),
-                    const SizedBox(width: 10),
-                    Text(
-                      AppLocalizations.of(context)!.deleteEvent,
-                      style: const TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.pop();
-                  onEdit?.call();
-                },
-                child: Row(
-                  children: [
-                    const Icon(Icons.edit, size: 28),
-                    const SizedBox(width: 10),
-                    Text(
-                      AppLocalizations.of(context)!.editEvent,
-                      style: const TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
+  final String personId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // the new one come on top
-    final eventAsync = ref.watch(eventByPersonIdProvider(personId).select(
+    final eventAsync = ref.watch(
+      eventByPersonIdProvider(personId).select(
         (data) => data
-          ..asData?.value.sort((a, b) => b.dateTime.compareTo(a.dateTime))));
+          ..asData?.value.sort((a, b) => b.dateTime.compareTo(a.dateTime)),
+      ),
+    );
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     return eventAsync.when(
@@ -157,15 +100,14 @@ class EventList extends HookConsumerWidget {
           (context, index) {
             final event = eventList[index];
             return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Card(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -177,35 +119,7 @@ class EventList extends HookConsumerWidget {
                             Wrap(
                               children: [
                                 ...?event.personIdList?.map(
-                                  (personId) => HookConsumer(
-                                    builder: (context, ref, child) {
-                                      final person = ref
-                                          .watch(personByIdProvider(personId));
-                                      return person.map(
-                                        data: (data) => Card(
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const CirclePersonIconBox(
-                                                size: 16,
-                                              ),
-                                              const SizedBox(width: 4.0),
-                                              Flexible(
-                                                child: Text(
-                                                  data.value.name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        error: (_) => Container(),
-                                        loading: (_) =>
-                                            const CircularProgressIndicator(),
-                                      );
-                                    },
-                                  ),
+                                  EventCard.new,
                                 ),
                               ],
                             )
@@ -214,18 +128,25 @@ class EventList extends HookConsumerWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () => bottomSheet(
-                        context,
-                        onDelete: () => ref
-                            .read(eventProvider)
-                            .removeEvent(event.id)
-                            .then((value) => context.pop()),
-                        onEdit: () => context.go(
-                            '/detail/edit_event?id=${event.personIdList?.first}&event_id=${event.id}'),
+                      onTap: () => showModalBottomSheet<void>(
+                        context: context,
+                        builder: (context) => SelectActionDialog(
+                          deleteButtonLabel:
+                              AppLocalizations.of(context)!.addEvent,
+                          ediButtontLabel:
+                              AppLocalizations.of(context)!.editEvent,
+                          onDelete: () => ref
+                              .read(eventProvider)
+                              .removeEvent(event.id)
+                              .then((value) => context.pop()),
+                          onEdit: () => context.go(
+                              '/detail/edit_event?id=${event.personIdList?.first}'
+                              '&event_id=${event.id}'),
+                        ),
                       ),
                       customBorder: const CircleBorder(),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Icon(
                           Icons.more_vert,
                           size: 20,
@@ -240,6 +161,36 @@ class EventList extends HookConsumerWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class EventCard extends HookConsumerWidget {
+  const EventCard(this.personId, {super.key});
+  final String personId;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final person = ref.watch(personByIdProvider(personId));
+    return person.map(
+      data: (data) => Card(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CirclePersonIconBox(
+              size: 16,
+            ),
+            const SizedBox(width: 4),
+            Flexible(
+              child: Text(
+                data.value.name,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+      error: (_) => Container(),
+      loading: (_) => const CircularProgressIndicator(),
     );
   }
 }

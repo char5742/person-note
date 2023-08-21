@@ -4,7 +4,7 @@ import 'package:person_note/usecase/event.dart';
 final initData = <String, Event>{
   '0': Event(
     id: '0',
-    dateTime: DateTime(2022, 5, 1),
+    dateTime: DateTime(2022, 5),
     text: 'A day when I went bird watching with my friend.',
     created: DateTime.now(),
     updated: DateTime.now(),
@@ -60,7 +60,7 @@ final initData = <String, Event>{
   ),
   '7': Event(
     id: '7',
-    dateTime: DateTime(2022, 1, 1),
+    dateTime: DateTime(2022),
     text: 'A day when I greeted the new year with my friend.',
     created: DateTime.now(),
     updated: DateTime.now(),
@@ -73,9 +73,9 @@ class EventUsecaseTestImpl implements EventUsecase {
   final eventMap = <String, Event>{...initData};
   @override
   Future<void> addEvent(Event event) async {
-    eventMap.addEntries({
-      event.id: event.copyWith(id: (eventMap.length + 1).toString())
-    }.entries);
+    eventMap.addEntries(
+      {event.id: event.copyWith(id: (eventMap.length + 1).toString())}.entries,
+    );
   }
 
   @override
@@ -96,8 +96,9 @@ class EventUsecaseTestImpl implements EventUsecase {
   }
 
   @override
-  Stream<List<Event>> watchEventListByPersonId(String personId) =>
-      Stream.value(eventMap.values
-          .where((element) => (element.personIdList ?? []).contains(personId))
-          .toList());
+  Stream<List<Event>> watchEventListByPersonId(String personId) => Stream.value(
+        eventMap.values
+            .where((element) => (element.personIdList ?? []).contains(personId))
+            .toList(),
+      );
 }

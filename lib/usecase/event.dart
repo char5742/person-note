@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:person_note/model/event/event.dart';
 
-abstract class EventUsecase {
-  EventUsecase(String userId);
+abstract interface class EventUsecase {
+  EventUsecase();
   Future<List<Event>> getEventList();
   Stream<List<Event>> watchEventList();
   Stream<List<Event>> watchEventListByPersonId(String personId);
@@ -12,8 +12,8 @@ abstract class EventUsecase {
 }
 
 class EventUsecaseImpl implements EventUsecase {
-  final String userId;
   EventUsecaseImpl(this.userId);
+  final String userId;
   @override
   Future<List<Event>> getEventList() async {
     final collectionRef = await FirebaseFirestore.instance

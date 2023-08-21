@@ -4,8 +4,8 @@ import 'package:person_note/model/account/account.dart';
 import 'package:person_note/usecase/auth.dart';
 
 class AuthUsecaseTestImpl implements AuthUsecase {
-  AuthUsecaseTestImpl._internal();
   factory AuthUsecaseTestImpl() => instance;
+  AuthUsecaseTestImpl._internal();
   static final AuthUsecaseTestImpl instance = AuthUsecaseTestImpl._internal();
 
   final accountStream = StreamController<Account?>();

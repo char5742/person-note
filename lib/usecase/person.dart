@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:person_note/model/person/person.dart';
 
-abstract class PersonUsecase {
-  PersonUsecase(String userId);
+abstract interface class PersonUsecase {
+  PersonUsecase();
   Future<List<Person>> getPersonList();
   Stream<List<Person>> watchPersonList();
   Future<void> addPerson(Person person);
@@ -11,8 +11,8 @@ abstract class PersonUsecase {
 }
 
 class PersonUsecaseImpl implements PersonUsecase {
-  final String userId;
   PersonUsecaseImpl(this.userId);
+  final String userId;
   @override
   Future<List<Person>> getPersonList() async {
     final collectionRef = await FirebaseFirestore.instance

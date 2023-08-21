@@ -6,7 +6,7 @@ import 'package:person_note/usecase/event.dart';
 final eventProvider = Provider<EventUsecase>((ref) {
   final uid = ref.watch(accountProvider.select((value) => value?.uid));
   if (uid == null) {
-    throw Exception("Require to sign in first.");
+    throw Exception('Require to sign in first.');
   }
   return EventUsecaseImpl(uid);
 });
@@ -20,7 +20,7 @@ final eventByIdProvider = FutureProvider.family.autoDispose<Event, String>(
       .watch(eventListProvider)
       .asData!
       .value
-      .firstWhere((element) => element.id.toString() == arg),
+      .firstWhere((element) => element.id == arg),
 );
 
 final eventByPersonIdProvider =
