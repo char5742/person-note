@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:person_note/page/detail/event/event_edit.dart';
-import 'package:person_note/provider/account.dart';
+import 'package:person_note/pages/detail_page/event_page/event_edit_page.dart';
+import 'package:person_note/providers/account_provider.dart';
 
 import 'const/color.dart';
-import 'page/create.dart';
-import 'page/detail/detail.dart';
-import 'page/detail/edit.dart';
-import 'page/detail/event/event_create.dart';
-import 'page/login.dart';
-import 'page/top.dart';
+import 'pages/create_page.dart';
+import 'pages/detail_page/detail_page.dart';
+import 'pages/detail_page/edit_page.dart';
+import 'pages/detail_page/event_page/event_create_page.dart';
+import 'pages/login_page.dart';
+import 'pages/top_page.dart';
 
 // GoRouter configuration
 final _routerProvider = Provider(
   (ref) => GoRouter(
     redirect: (context, state) async {
-      if (ref.watch(accountProvider) == null) {
+      if (ref.watch(accountServiceProvider) == null) {
         return state.path == '/login' ? null : '/login';
       }
       // Transition to the top page after the login process is complete.
