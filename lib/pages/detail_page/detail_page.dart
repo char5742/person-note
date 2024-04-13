@@ -29,7 +29,7 @@ class DetailPage extends HookConsumerWidget {
         : '';
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/detail/create_event?id=$personId'),
+        onPressed: () => context.go('/person/$personId/event/create'),
         child: const Icon(Icons.add),
       ),
       body: CustomScrollView(
@@ -48,10 +48,9 @@ class DetailPage extends HookConsumerWidget {
                     children: [
                       const CirclePersonIconBox(),
                       ElevatedButton(
-                        onPressed: () =>
-                            context.go('/detail/edit?id=$personId'),
+                        onPressed: () => context.go('/person/$personId/edit'),
                         child: Text(AppLocalizations.of(context)!.editNote),
-                      )
+                      ),
                     ],
                   ),
                   Text(person.email ?? '', style: theme.textTheme.bodyMedium),
@@ -122,7 +121,7 @@ class EventList extends HookConsumerWidget {
                                   EventCard.new,
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -140,8 +139,8 @@ class EventList extends HookConsumerWidget {
                               .removeEvent(event.id)
                               .then((value) => context.pop()),
                           onEdit: () => context.go(
-                              '/detail/edit_event?id=${event.personIdList?.first}'
-                              '&event_id=${event.id}'),
+                            '/person/${event.personIdList?.first}/event/${event.id}/edit',
+                          ),
                         ),
                       ),
                       customBorder: const CircleBorder(),

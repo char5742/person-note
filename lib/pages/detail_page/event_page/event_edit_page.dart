@@ -26,7 +26,7 @@ class EventEditPage extends HookConsumerWidget {
     final personList = useState<List<Person>>([
       ...?event.personIdList
           ?.map((id) => ref.read(personByIdProvider(id)).asData?.value)
-          .whereType()
+          .whereType(),
     ]);
     final dateTime = useState<DateTime>(event.dateTime);
     final tags = useState(<String>[...?event.tags]);

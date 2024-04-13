@@ -10,7 +10,7 @@ import 'pages/create_page.dart';
 import 'pages/detail_page/detail_page.dart';
 import 'pages/detail_page/edit_page.dart';
 import 'pages/detail_page/event_page/event_create_page.dart';
-import 'pages/login_page.dart';
+import 'pages/login_page.dart' if (dart.library.html) 'pages/login_page_web.dart';
 import 'pages/top_page.dart';
 
 // GoRouter configuration
@@ -40,7 +40,7 @@ final _routerProvider = Provider(
             builder: (context, state) => const CreatePage(),
           ),
           GoRoute(
-            path: 'detail',
+            path: 'person/:id',
             builder: (context, state) =>
                 DetailPage(personId: state.pathParameters['id']!),
             routes: [
@@ -50,12 +50,12 @@ final _routerProvider = Provider(
                     EditPage(personId: state.pathParameters['id']!),
               ),
               GoRoute(
-                path: 'create_event',
+                path: 'event/create',
                 builder: (context, state) =>
                     EventCreatePage(personId: state.pathParameters['id']!),
               ),
               GoRoute(
-                path: 'edit_event',
+                path: 'event/:event_id/edit',
                 builder: (context, state) =>
                     EventEditPage(eventId: state.pathParameters['event_id']!),
               ),

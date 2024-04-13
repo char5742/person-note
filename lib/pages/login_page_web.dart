@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/const/color.dart';
@@ -11,18 +10,6 @@ class LoginPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // want to be able to choose how to log in.
-    void signIn() {
-      ref.read(authServiceProvider).signIn();
-    }
-
-    useEffect(
-      () {
-        signIn();
-        return null;
-      },
-      [],
-    );
     return Scaffold(
       body: Center(
         child: Column(
@@ -31,10 +18,7 @@ class LoginPage extends HookConsumerWidget {
             Assets.img.appLogo.svg(
               theme: const SvgTheme(currentColor: seedColor),
             ),
-            ElevatedButton(
-              onPressed: signIn,
-              child: const Text('Sign In'),
-            ),
+            ref.watch(authServiceProvider).renderButton(),
           ],
         ),
       ),

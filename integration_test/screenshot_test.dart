@@ -12,11 +12,11 @@ import 'services/event_service.dart';
 import 'services/person_service.dart';
 
 void main() {
-  final binding = IntegrationTestWidgetsFlutterBinding();
+  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('screenshot', (WidgetTester tester) async {
     // Render the UI of the app
-    final authService =  AuthServiceTestImpl();
+    final authService = AuthServiceTestImpl();
     await authService.init();
     await tester.pumpWidget(
       ProviderScope(
@@ -28,6 +28,7 @@ void main() {
         child: const App(),
       ),
     );
+
     await binding.convertFlutterSurfaceToImage();
     // if call pumpAndSettle only once, didn`t show App Logo.
     await tester.pumpAndSettle();

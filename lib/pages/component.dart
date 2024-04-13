@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,25 +6,23 @@ import 'package:person_note/utils/date_format.dart';
 import 'package:person_note/utils/validator.dart' as validator;
 
 class CirclePersonIconBox extends StatelessWidget {
-  const CirclePersonIconBox({super.key, this.size});
-  final double? size;
+  const CirclePersonIconBox({super.key, this.size = 72});
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    // ignore: no_leading_underscores_for_local_identifiers
-    final _size = size ?? 72;
     return SizedBox(
-      width: _size,
-      height: _size,
+      width: size,
+      height: size,
       child: CircleAvatar(
         child: ClipOval(
           child: Stack(
             children: [
               Positioned(
-                left: -_size / 6,
+                left: -size / 6,
                 child: Icon(
                   Icons.person,
-                  size: _size * 4 / 3,
+                  size: size * 4 / 3,
                 ),
               ),
             ],
@@ -33,20 +30,6 @@ class CirclePersonIconBox extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class CustomMonthDayPicker extends DatePickerModel {
-  CustomMonthDayPicker({
-    super.currentTime,
-    super.minTime,
-    super.maxTime,
-    super.locale,
-  });
-
-  @override
-  List<int> layoutProportions() {
-    return [0, 1, 1];
   }
 }
 
@@ -120,10 +103,11 @@ class PersonForm extends HookConsumerWidget {
                     ),
                     IconButton(
                       onPressed: () async {
-                        final date = await DatePicker.showPicker(
-                          context,
-                          pickerModel:
-                              CustomMonthDayPicker(currentTime: DateTime(0)),
+                        final date = await showDatePicker(
+                          context: context,
+                          initialDate: birthday.value ?? DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime.now(),
                         );
                         birthday.value = date;
                       },
@@ -182,12 +166,12 @@ class PersonForm extends HookConsumerWidget {
                                   onPressed: () {
                                     tags.value = [
                                       ...tags.value,
-                                      controller.text
+                                      controller.text,
                                     ];
                                     context.pop();
                                   },
                                   icon: const Icon(Icons.add),
-                                )
+                                ),
                               ],
                             );
                           },
@@ -278,7 +262,7 @@ class SelectActionDialog extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

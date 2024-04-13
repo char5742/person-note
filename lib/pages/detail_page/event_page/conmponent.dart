@@ -87,7 +87,7 @@ class GetPersonDialog extends HookConsumerWidget {
                   context.pop();
                 },
           icon: const Icon(Icons.add),
-        )
+        ),
       ],
     );
   }
@@ -159,7 +159,7 @@ class EventForm extends HookConsumerWidget {
                                   onPressed: (person) {
                                     personList.value = [
                                       ...personList.value,
-                                      person
+                                      person,
                                     ];
                                   },
                                 );

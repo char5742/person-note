@@ -16,11 +16,11 @@ final eventListProvider = StreamProvider<List<Event>>(
 );
 
 final eventByIdProvider = FutureProvider.family.autoDispose<Event, String>(
-  (ref, arg) async => ref
-      .watch(eventListProvider)
-      .asData!
-      .value
-      .firstWhere((element) => element.id == arg),
+  (ref, arg) async => ref.watch(
+    eventListProvider.selectAsync(
+      (data) => data.firstWhere((element) => element.id == arg),
+    ),
+  ),
 );
 
 final eventByPersonIdProvider =

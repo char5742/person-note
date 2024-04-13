@@ -48,11 +48,12 @@ class TopPage extends HookConsumerWidget {
                     child: Container(
                       alignment: Alignment.bottomLeft,
                       child: TextButton(
-                        onPressed: () => ref.read(authServiceProvider).signOut(),
+                        onPressed: () =>
+                            ref.read(authServiceProvider).signOut(),
                         child: const Text('sign out'),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -77,7 +78,7 @@ class PersonCard extends HookConsumerWidget {
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () => context.go('/detail?id=${person.id}'),
+          onTap: () => context.go('/person/${person.id}'),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -107,7 +108,7 @@ class PersonCard extends HookConsumerWidget {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ],
@@ -129,7 +130,7 @@ class PersonCard extends HookConsumerWidget {
                           .read(personServiceProvider)
                           .removePerson(person.id)
                           .then((value) => context.pop()),
-                      onEdit: () => context.go('/detail/edit?id=${person.id}'),
+                      onEdit: () => context.go('/person/${person.id}/edit'),
                     );
                   },
                 ),
@@ -216,7 +217,7 @@ class DeletePopUp extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

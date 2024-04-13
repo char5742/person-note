@@ -16,9 +16,9 @@ final personListProvider = StreamProvider<List<Person>>(
 );
 
 final personByIdProvider = FutureProvider.family.autoDispose<Person, String>(
-  (ref, arg) async => ref
-      .watch(personListProvider)
-      .asData!
-      .value
-      .firstWhere((element) => element.id == arg),
+  (ref, arg) async => ref.watch(
+    personListProvider.selectAsync(
+      (data) => data.firstWhere((element) => element.id == arg),
+    ),
+  ),
 );

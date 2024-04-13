@@ -1,10 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:person_note/models/account/account_model.dart';
 
-abstract interface class AuthServiceAbstract {
-  Future<Account?> signInWithGoogle();
+import 'signin_button/signin_button_none.dart'
+    if (dart.library.html) 'signin_button/signin_button_web.dart'
+    as signin_button;
+
+abstract interface class AbstractAuthService {
+  Future<void> signIn();
+  Widget renderButton();
 
   /// Returns a future that Account if already signedIn.
   Account? currentAccount();
@@ -17,7 +23,12 @@ abstract interface class AuthServiceAbstract {
   Future<void> init();
 }
 
-class AuthServiceWithFirebase implements AuthServiceAbstract {
+class AuthServiceWithFirebase implements AbstractAuthService {
+  final googleSignIn = GoogleSignIn();
+
+  @override
+  Widget renderButton() => signin_button.renderButton();
+
   @override
   Account? currentAccount() {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -33,8 +44,8 @@ class AuthServiceWithFirebase implements AuthServiceAbstract {
 
   @override
   Future<void> signOut() async {
-    if (await GoogleSignIn().isSignedIn()) {
-      await GoogleSignIn().signOut();
+    if (await googleSignIn.isSignedIn()) {
+      await googleSignIn.signOut();
     }
     await FirebaseAuth.instance.signOut();
   }
@@ -55,33 +66,23 @@ class AuthServiceWithFirebase implements AuthServiceAbstract {
       );
 
   @override
-  Future<Account?> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
-    final googleAuth = await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    // Once signed in, return the UserCredential
-    final user = await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((value) => value.user);
-    if (user == null) {
-      return null;
-    }
-    return Account(
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-    );
+  Future<void> signIn() async {
+    await googleSignIn.signIn();
   }
 
   @override
   Future<void> init() async {
+    googleSignIn.onCurrentUserChanged.listen((account) async {
+      if (account == null) {
+        return;
+      }
+      final googleAuth = await account.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    });
     FirebaseAuth.instance.authStateChanges().listen((user) async {
       if (user != null) {
         final docRef =

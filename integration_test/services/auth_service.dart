@@ -1,11 +1,21 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:person_note/models/account/account_model.dart';
-import 'package:person_note/services/auth_service.dart';
+import 'package:person_note/services/auth_service/auth_service.dart';
 
-class AuthServiceTestImpl implements AuthServiceWithFirebase {
+class AuthServiceTestImpl implements AbstractAuthService {
   final accountStream = StreamController<Account?>();
   bool isFirstCall = true;
+
+  @override
+  Widget renderButton() {
+    return ElevatedButton(
+      onPressed: signIn,
+      child: const Text('Sign In'),
+    );
+  }
+
   @override
   Account? currentAccount() {
     return null;
@@ -18,7 +28,7 @@ class AuthServiceTestImpl implements AuthServiceWithFirebase {
   Stream<Account?> get userChanges => accountStream.stream;
 
   @override
-  Future<Account?> signInWithGoogle() async {
+  Future<Account?> signIn() async {
     if (isFirstCall) {
       isFirstCall = !isFirstCall;
       return null;
