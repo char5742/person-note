@@ -2,19 +2,19 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+"on": pull_request
 jobs:
-  build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs && flutter build web
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PERSON_NOTE_D625A }}'
-          projectId: person-note-d625a
+    build_and_preview:
+        if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: subosito/flutter-action@v2
+              with:
+                  channel: "stable"
+            - run: flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs && flutter build web --web-renderer canvaskit --release
+            - uses: FirebaseExtended/action-hosting-deploy@v0
+              with:
+                  repoToken: "${{ secrets.GITHUB_TOKEN }}"
+                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PERSON_NOTE_D625A }}"
+                  projectId: person-note-d625a
