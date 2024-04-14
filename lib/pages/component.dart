@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/utils/date_format.dart';
 import 'package:person_note/utils/validator.dart' as validator;
 
@@ -33,7 +32,7 @@ class CirclePersonIconBox extends StatelessWidget {
   }
 }
 
-class PersonForm extends HookConsumerWidget {
+class PersonForm extends StatelessWidget {
   const PersonForm({
     super.key,
     required this.formKey,
@@ -41,20 +40,19 @@ class PersonForm extends HookConsumerWidget {
     required this.ageController,
     required this.emailController,
     required this.memoController,
-    required this.birthday,
-    required this.tags,
+    required this.birthdayController,
+    required this.tagsController,
   });
   final Key formKey;
   final TextEditingController nameController;
   final TextEditingController ageController;
   final TextEditingController emailController;
   final TextEditingController memoController;
-  final ValueNotifier<DateTime?> birthday;
-  final ValueNotifier<List<String>> tags;
+  final ValueNotifier<DateTime?> birthdayController;
+  final ValueNotifier<List<String>> tagsController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(
@@ -63,129 +61,184 @@ class PersonForm extends HookConsumerWidget {
           child: Column(
             children: [
               // name field
-              TextFormField(
-                controller: nameController,
-                validator: validator.isNonNullString,
-                decoration: InputDecoration(
-                  label: Text(AppLocalizations.of(context)!.name),
-                ),
-              ),
+              _NameField(nameController: nameController),
               // age field
-              TextFormField(
-                controller: ageController,
-                validator: validator.isNumber,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  label: Text(AppLocalizations.of(context)!.age),
-                ),
-              ),
+              _AgeField(ageController: ageController),
               // email field
-              TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  label: Text(AppLocalizations.of(context)!.email),
-                ),
-              ),
+              _EmailField(emailController: emailController),
               // birthday field
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Row(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.birthday,
-                      style: theme.textTheme.labelLarge,
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      formatDate(birthday.value),
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: birthday.value ?? DateTime.now(),
-                          firstDate: DateTime(2020),
-                          lastDate: DateTime.now(),
-                        );
-                        birthday.value = date;
-                      },
-                      icon: const Icon(Icons.date_range),
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 16),
+              _BirthdayField(birthday: birthdayController),
               // memo field
-              TextFormField(
-                controller: memoController,
-                maxLines: null,
-                decoration: InputDecoration(
-                  label: Text(AppLocalizations.of(context)!.memo),
-                ),
-              ),
+              _MemoField(memoController: memoController),
               // tags field
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(top: 16),
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.tags,
-                      style: theme.textTheme.labelLarge,
-                    ),
-                    ...tags.value.map(
-                      (e) => Card(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          child: Text(
-                            e,
-                            style: theme.textTheme.bodyLarge,
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context,
-                          builder: (context) {
-                            final controller = TextEditingController();
-                            return SimpleDialog(
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              children: [
-                                TextFormField(controller: controller),
-                                IconButton(
-                                  onPressed: () {
-                                    tags.value = [
-                                      ...tags.value,
-                                      controller.text,
-                                    ];
-                                    context.pop();
-                                  },
-                                  icon: const Icon(Icons.add),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(Icons.add),
-                    ),
-                  ],
-                ),
+                child: _TagsField(tagsController: tagsController),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _NameField extends StatelessWidget {
+  const _NameField({required this.nameController});
+  final TextEditingController nameController;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: nameController,
+      validator: validator.isNonNullString,
+      decoration: InputDecoration(
+        label: Text(AppLocalizations.of(context)!.name),
+      ),
+    );
+  }
+}
+
+class _AgeField extends StatelessWidget {
+  const _AgeField({required this.ageController});
+  final TextEditingController ageController;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: ageController,
+      validator: validator.isNumber,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        label: Text(AppLocalizations.of(context)!.age),
+      ),
+    );
+  }
+}
+
+class _EmailField extends StatelessWidget {
+  const _EmailField({required this.emailController});
+  final TextEditingController emailController;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+        label: Text(AppLocalizations.of(context)!.email),
+      ),
+    );
+  }
+}
+
+class _BirthdayField extends StatelessWidget {
+  const _BirthdayField({required this.birthday});
+  final ValueNotifier<DateTime?> birthday;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
+      children: [
+        Text(
+          AppLocalizations.of(context)!.birthday,
+          style: theme.textTheme.labelLarge,
+        ),
+        const SizedBox(width: 16),
+        Text(
+          formatDate(birthday.value),
+          style: theme.textTheme.bodyLarge,
+        ),
+        IconButton(
+          onPressed: () async {
+            final date = await showDatePicker(
+              context: context,
+              initialDate: birthday.value ?? DateTime.now(),
+              firstDate: DateTime(2020),
+              lastDate: DateTime.now(),
+            );
+            birthday.value = date;
+          },
+          icon: const Icon(Icons.date_range),
+        ),
+      ],
+    );
+  }
+}
+
+class _MemoField extends StatelessWidget {
+  const _MemoField({required this.memoController});
+  final TextEditingController memoController;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: memoController,
+      maxLines: null,
+      decoration: InputDecoration(
+        label: Text(AppLocalizations.of(context)!.memo),
+      ),
+    );
+  }
+}
+
+class _TagsField extends StatelessWidget {
+  const _TagsField({required this.tagsController});
+  final ValueNotifier<List<String>> tagsController;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.tags,
+          style: theme.textTheme.labelLarge,
+        ),
+        ...tagsController.value.map(
+          (e) => Card(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 4,
+              ),
+              child: Text(
+                e,
+                style: theme.textTheme.bodyLarge,
+              ),
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            showDialog<void>(
+              context: context,
+              builder: (context) {
+                final controller = TextEditingController();
+                return SimpleDialog(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  children: [
+                    TextFormField(controller: controller),
+                    IconButton(
+                      onPressed: () {
+                        tagsController.value = [
+                          ...tagsController.value,
+                          controller.text,
+                        ];
+                        context.pop();
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          icon: const Icon(Icons.add),
+        ),
+      ],
     );
   }
 }

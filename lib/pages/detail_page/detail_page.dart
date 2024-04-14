@@ -65,15 +65,15 @@ class DetailPage extends HookConsumerWidget {
               ),
             ),
           ),
-          EventList(personId: personId),
+          _EventList(personId: personId),
         ],
       ),
     );
   }
 }
 
-class EventList extends HookConsumerWidget {
-  const EventList({required this.personId, super.key});
+class _EventList extends HookConsumerWidget {
+  const _EventList({required this.personId});
   final String personId;
 
   @override
@@ -118,7 +118,7 @@ class EventList extends HookConsumerWidget {
                             Wrap(
                               children: [
                                 ...?event.personIdList?.map(
-                                  EventCard.new,
+                                  _EventCard.new,
                                 ),
                               ],
                             ),
@@ -164,8 +164,8 @@ class EventList extends HookConsumerWidget {
   }
 }
 
-class EventCard extends HookConsumerWidget {
-  const EventCard(this.personId, {super.key});
+class _EventCard extends HookConsumerWidget {
+  const _EventCard(this.personId, {super.key});
   final String personId;
   @override
   Widget build(BuildContext context, WidgetRef ref) {

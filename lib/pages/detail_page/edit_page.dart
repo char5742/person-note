@@ -25,8 +25,8 @@ class EditPage extends HookConsumerWidget {
         useTextEditingController(text: (person.age ?? '').toString());
     final emailConteroller = useTextEditingController(text: person.email);
     final memoConteroller = useTextEditingController(text: person.memo);
-    final birthday = useState<DateTime?>(person.birthday);
-    final tags = useState(<String>[...?person.tags]);
+    final birthdayController = useState<DateTime?>(person.birthday);
+    final tagsController = useState(<String>[...?person.tags]);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -40,9 +40,9 @@ class EditPage extends HookConsumerWidget {
                         name: nameConteroller.text,
                         age: int.tryParse(ageConteroller.text),
                         email: emailConteroller.text,
-                        birthday: birthday.value,
+                        birthday: birthdayController.value,
                         memo: memoConteroller.text,
-                        tags: tags.value,
+                        tags: tagsController.value,
                       );
                       await ref
                           .read(personServiceProvider)
@@ -60,8 +60,8 @@ class EditPage extends HookConsumerWidget {
         ageController: ageConteroller,
         emailController: emailConteroller,
         memoController: memoConteroller,
-        birthday: birthday,
-        tags: tags,
+        birthdayController: birthdayController,
+        tagsController: tagsController,
       ),
     );
   }
