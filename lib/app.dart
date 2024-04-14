@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:person_note/page/detail/event/event_edit.dart';
-import 'package:person_note/provider/account.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:person_note/pages/detail_page/event_page/event_edit_page.dart';
+import 'package:person_note/providers/account_provider.dart';
 
 import 'const/color.dart';
-import 'page/create.dart';
-import 'page/detail/detail.dart';
-import 'page/detail/edit.dart';
-import 'page/detail/event/event_create.dart';
-import 'page/login.dart';
-import 'page/top.dart';
+import 'pages/create_page.dart';
+import 'pages/detail_page/detail_page.dart';
+import 'pages/detail_page/edit_page.dart';
+import 'pages/detail_page/event_page/event_create_page.dart';
+import 'pages/login_page.dart' if (dart.library.html) 'pages/login_page_web.dart';
+import 'pages/top_page.dart';
 
 // GoRouter configuration
 final _routerProvider = Provider(
   (ref) => GoRouter(
     redirect: (context, state) async {
-      if (ref.watch(accountProvider) == null) {
-        return state.subloc == '/login' ? null : '/login';
+      if (ref.watch(accountServiceProvider) == null) {
+        return state.path == '/login' ? null : '/login';
       }
       // Transition to the top page after the login process is complete.
-      if (state.subloc == '/login') {
+      if (state.path == '/login') {
         return '/';
       }
       return null;
@@ -40,24 +40,24 @@ final _routerProvider = Provider(
             builder: (context, state) => const CreatePage(),
           ),
           GoRoute(
-            path: 'detail',
+            path: 'person/:id',
             builder: (context, state) =>
-                DetailPage(personId: state.queryParams['id']!),
+                DetailPage(personId: state.pathParameters['id']!),
             routes: [
               GoRoute(
                 path: 'edit',
                 builder: (context, state) =>
-                    EditPage(personId: state.queryParams['id']!),
+                    EditPage(personId: state.pathParameters['id']!),
               ),
               GoRoute(
-                path: 'create_event',
+                path: 'event/create',
                 builder: (context, state) =>
-                    EventCreatePage(personId: state.queryParams['id']!),
+                    EventCreatePage(personId: state.pathParameters['id']!),
               ),
               GoRoute(
-                path: 'edit_event',
+                path: 'event/:event_id/edit',
                 builder: (context, state) =>
-                    EventEditPage(eventId: state.queryParams['event_id']!),
+                    EventEditPage(eventId: state.pathParameters['event_id']!),
               ),
             ],
           ),
