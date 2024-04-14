@@ -117,98 +117,125 @@ class EventForm extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.person,
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                  ...personList.value.map(
-                    (e) => Card(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 150),
-                          child: Text(
-                            e.name,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyLarge,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      ref.watch(personListProvider.future).then(
-                            (value) => showDialog<void>(
-                              context: context,
-                              builder: (context) {
-                                return GetPersonDialog(
-                                  // Persons already added are not displayed
-                                  allPersonList: value
-                                      .where(
-                                        (element) =>
-                                            !personList.value.contains(element),
-                                      )
-                                      .toList(),
-                                  onPressed: (person) {
-                                    personList.value = [
-                                      ...personList.value,
-                                      person,
-                                    ];
-                                  },
-                                );
-                              },
-                            ),
-                          );
-                    },
-                    icon: const Icon(Icons.add),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    formatDateTime(dateTime.value),
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final newDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate:
-                            DateTime.now().subtract(const Duration(days: 30)),
-                        lastDate: DateTime.now(),
-                      );
-                      if (newDate != null) {
-                        dateTime.value = newDate;
-                      }
-                    },
-                    icon: const Icon(Icons.date_range),
-                  ),
-                ],
-              ),
+              _PersonListField(personList: personList),
+              _DateTimeField(dateTime: dateTime),
               const Divider(),
-              TextFormField(
-                maxLines: null,
-                controller: textConteroller,
-                autofocus: true,
-                validator: validator.isNonNullString,
-                style: theme.textTheme.bodyLarge?.copyWith(fontSize: 18),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                ),
-              ),
+              _EventContentField(textConteroller: textConteroller),
               const SizedBox(height: 300),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _PersonListField extends HookConsumerWidget {
+  const _PersonListField({required this.personList});
+  final ValueNotifier<List<Person>> personList;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.person,
+          style: theme.textTheme.bodyLarge,
+        ),
+        ...personList.value.map(
+          (e) => Card(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 4,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 150),
+                child: Text(
+                  e.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyLarge,
+                ),
+              ),
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            ref.watch(personListProvider.future).then(
+                  (value) => showDialog<void>(
+                    context: context,
+                    builder: (context) {
+                      return GetPersonDialog(
+                        // Persons already added are not displayed
+                        allPersonList: value
+                            .where(
+                              (element) => !personList.value.contains(element),
+                            )
+                            .toList(),
+                        onPressed: (person) {
+                          personList.value = [
+                            ...personList.value,
+                            person,
+                          ];
+                        },
+                      );
+                    },
+                  ),
+                );
+          },
+          icon: const Icon(Icons.add),
+        ),
+      ],
+    );
+  }
+}
+
+class _DateTimeField extends HookConsumerWidget {
+  const _DateTimeField({required this.dateTime});
+  final ValueNotifier<DateTime> dateTime;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        Text(
+          formatDateTime(dateTime.value),
+          style: theme.textTheme.bodyLarge,
+        ),
+        IconButton(
+          onPressed: () async {
+            final newDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime.now().subtract(const Duration(days: 30)),
+              lastDate: DateTime.now(),
+            );
+            if (newDate != null) {
+              dateTime.value = newDate;
+            }
+          },
+          icon: const Icon(Icons.date_range),
+        ),
+      ],
+    );
+  }
+}
+
+class _EventContentField extends HookConsumerWidget {
+  const _EventContentField({required this.textConteroller});
+  final TextEditingController textConteroller;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    return TextFormField(
+      maxLines: null,
+      controller: textConteroller,
+      validator: validator.isNonNullString,
+      style: theme.textTheme.bodyLarge,
+      decoration: const InputDecoration(
+        border: InputBorder.none,
       ),
     );
   }
