@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:person_note/pages/detail_page/event_page/event_edit_page.dart';
 import 'package:person_note/providers/account_provider.dart';
@@ -10,7 +11,8 @@ import 'pages/create_page.dart';
 import 'pages/detail_page/detail_page.dart';
 import 'pages/detail_page/edit_page.dart';
 import 'pages/detail_page/event_page/event_create_page.dart';
-import 'pages/login_page.dart' if (dart.library.html) 'pages/login_page_web.dart';
+import 'pages/login_page.dart'
+    if (dart.library.html) 'pages/login_page_web.dart';
 import 'pages/top_page.dart';
 
 // GoRouter configuration
@@ -76,6 +78,7 @@ class App extends HookConsumerWidget {
       theme: ThemeData.from(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
+        textTheme: GoogleFonts.yomogiTextTheme(ThemeData.light().textTheme),
       ),
       darkTheme: ThemeData.from(
         useMaterial3: true,
@@ -83,6 +86,7 @@ class App extends HookConsumerWidget {
           seedColor: seedColor,
           brightness: Brightness.dark,
         ),
+        textTheme: GoogleFonts.yomogiTextTheme(ThemeData.dark().textTheme),
       ),
       routerConfig: ref.watch(_routerProvider),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
