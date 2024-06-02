@@ -9,7 +9,7 @@ part of 'person_model.dart';
 _$PersonImpl _$$PersonImplFromJson(Map<String, dynamic> json) => _$PersonImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      age: json['age'] as int?,
+      age: (json['age'] as num?)?.toInt(),
       birthday: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
