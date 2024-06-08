@@ -33,25 +33,28 @@ class GetPersonDialog extends HookConsumerWidget {
           child: DropdownButton2(
             dropdownSearchData: DropdownSearchData<Person>(
               searchController: textEditingController,
-              searchInnerWidget: Padding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 4,
-                  right: 8,
-                  left: 8,
-                ),
-                child: TextFormField(
-                  controller: textEditingController,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
-                    hintText: 'Search for an item...',
-                    hintStyle: const TextStyle(fontSize: 12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+              searchInnerWidgetHeight: 0,
+              searchInnerWidget: SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    bottom: 4,
+                    right: 8,
+                    left: 8,
+                  ),
+                  child: TextFormField(
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
+                      ),
+                      hintText: 'Search for an item...',
+                      hintStyle: const TextStyle(fontSize: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                   ),
                 ),
